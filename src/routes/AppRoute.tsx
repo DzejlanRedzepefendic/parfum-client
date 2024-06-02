@@ -7,18 +7,19 @@ import BottomNavBar from '../components/BottomNavBar';
 import { Home } from '../pages/Home';
 import { Article } from '../pages/Article';
 import { Profile } from '../pages/Profile';
+import Login from '../pages/Login';
 
 const AppRoute: React.FC = () => {
 
     const { isLoggedIn } = useAuth();
-    const shouldShowBottomNavBar = !['/home'].includes(location.pathname);
+    const notShow = ['/login'].includes(location.pathname);
 
 
   return (
-    <Container maxWidth="sm" style={{ paddingBottom: shouldShowBottomNavBar ? '56px' : '0' }}>
+    <Container sx={{minHeight:'100vh'}} maxWidth="sm" style={{ paddingBottom: notShow ? '56px' : '0' }}>
         <Routes>
         <Route path="/login" element={
-            <h1>Nisam ulogovan</h1>
+            <Login/>
         } />
       <Route
         path="/home"
@@ -50,7 +51,7 @@ const AppRoute: React.FC = () => {
       />
       <Route path="*" element={<Navigate to="/" />} />
         </Routes>
-        <BottomNavBar />
+      {!notShow  &&  <BottomNavBar />}
     </Container>
   );
 };
