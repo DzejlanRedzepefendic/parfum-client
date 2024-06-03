@@ -6,9 +6,9 @@ import {  Container } from '@mui/material';
 import BottomNavBar from '../components/BottomNavBar';
 import { Home } from '../pages/Home';
 import { Article } from '../pages/Article';
-import { Profile } from '../pages/Profile';
 import Login from '../pages/Login';
 import MenuAppBar from '../components/MenuAppBar';
+import { Team } from '../pages/Team';
 
 const AppRoute: React.FC = () => {
   const { isLoggedIn } = useAuth();
@@ -42,10 +42,10 @@ const AppRoute: React.FC = () => {
           }
         />
         <Route
-          path="/profile"
+          path="/team"
           element={
             <ProtectedRoute>
-              <Profile />
+              <Team />
             </ProtectedRoute>
           }
         />

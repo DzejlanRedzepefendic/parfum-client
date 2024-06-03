@@ -18,7 +18,7 @@ const BottomNavBar: React.FC = () => {
       case '/article':
         setValue(1);
         break;
-      case '/profile':
+      case '/team':
         setValue(2);
         break;
       default:
@@ -36,7 +36,7 @@ const BottomNavBar: React.FC = () => {
         navigate('/article');
         break;
       case 2:
-        navigate('/profile');
+        navigate('/team');
         break;
       default:
         break;
@@ -58,7 +58,7 @@ const BottomNavBar: React.FC = () => {
     >
       <BottomNavigationAction label="Home" icon={<HomeIcon />} />
       <BottomNavigationAction label="Article" icon={<Article />} />
-      <BottomNavigationAction label="Profile" icon={<AccountCircleIcon />} />
+      <BottomNavigationAction label="Team" icon={<AccountCircleIcon />} />
     </BottomNavigation>
   );
 };
