@@ -87,9 +87,15 @@ export const Team: React.FC = () => {
 
   return (
     <Box p={2}>
-      <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-        <Typography variant="h4">Team Members</Typography>
-        <Button variant="contained" color="primary" onClick={handleClickOpen} startIcon={<AddIcon />}>
+      <Box sx={{borderBottom:'1px solid #1976d2',paddingBottom:'12px'}} display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+        <Typography  variant="h6" sx={{ fontWeight: 'bold' }}>Team Members</Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleClickOpen}
+          startIcon={<AddIcon />}
+          sx={{ backgroundColor: '#4CAF50', '&:hover': { backgroundColor: '#45A049' } }}
+        >
           Add Team Member
         </Button>
       </Box>
@@ -106,7 +112,7 @@ export const Team: React.FC = () => {
                   <EditIcon />
                 </IconButton>
                 <IconButton color="secondary" onClick={() => handleDeleteClick(user)}>
-                  <DeleteIcon />
+                  <DeleteIcon color='error' />
                 </IconButton>
               </Stack>
             </ListItem>

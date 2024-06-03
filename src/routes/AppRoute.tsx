@@ -18,7 +18,7 @@ const AppRoute: React.FC = () => {
 
   return (
     <Container
-      sx={{ minHeight: '100vh',width:'100%',backgroundColor:'#f5f5f5' }}
+      sx={{ minHeight: '100vh',width:'100%' }}
       maxWidth="sm"
       style={{ paddingBottom: notShow ? '0' : '56px',paddingLeft:0,paddingRight:0 }}
     >
