@@ -22,6 +22,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DescriptionIcon from '@mui/icons-material/Description';
 import SearchIcon from '@mui/icons-material/Search';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 
 interface Article {
   name: string;
@@ -36,6 +37,7 @@ export const Article: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
+  const [fillOpen, setFillOpen] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
   const [newArticle, setNewArticle] = useState<Article>({
     name: '',
@@ -45,6 +47,7 @@ export const Article: React.FC = () => {
     notes: []
   });
   const [note, setNote] = useState('');
+  const [quantityChange, setQuantityChange] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleClickOpen = () => {
@@ -122,6 +125,30 @@ export const Article: React.FC = () => {
     handleDeleteClose();
   };
 
+  const handleFillClick = (article: Article) => {
+    setSelectedArticle(article);
+    setFillOpen(true);
+  };
+
+  const handleFillClose = () => {
+    setFillOpen(false);
+    setSelectedArticle(null);
+    setQuantityChange(0);
+  };
+
+  const handleFillArticle = () => {
+    if (selectedArticle) {
+      setArticles(
+        articles.map((article) =>
+          article.name === selectedArticle.name
+            ? { ...article, initialQuantity: article.initialQuantity + quantityChange }
+            : article
+        )
+      );
+      handleFillClose();
+    }
+  };
+
   const filteredArticles = articles.filter((article) =>
     article.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -174,6 +201,9 @@ export const Article: React.FC = () => {
                 <IconButton color="secondary" onClick={() => handleDeleteClick(article)}>
                   <DeleteIcon />
                 </IconButton>
+                <IconButton color="default" onClick={() => handleFillClick(article)}>
+                  <LocalShippingIcon />
+                </IconButton>
               </Stack>
             </ListItem>
           </Paper>
@@ -210,39 +240,38 @@ export const Article: React.FC = () => {
             value={newArticle.description}
             onChange={handleChange}
           />
-         <TextField
-          margin="dense"
-          name="initialQuantity"
-          label="Initial Quantity"
-          type="number"
-          fullWidth
-          value={newArticle.initialQuantity === 0 ? '' : newArticle.initialQuantity}
-          onChange={handleChange}
+          <TextField
+            margin="dense"
+            name="initialQuantity"
+            label="Initial Quantity"
+            type="number"
+            fullWidth
+            value={newArticle.initialQuantity === 0 ? '' : newArticle.initialQuantity}
+            onChange={handleChange}
+          />
+          <Box display="flex" alignItems="center">
+            <TextField
+              margin="dense"
+              name="note"
+              label="Add Note"
+              type="text"
+              fullWidth
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              InputProps={{
+                endAdornment: (
+                  <Button
+                    onClick={handleAddNote}
+                    color="primary"
+                    variant="outlined"
+                    sx={{ height: '100%', borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}
+                  >
+                    <AddIcon />
+                  </Button>
+                ),
+              }}
             />
-       <Box display="flex" alignItems="center">
-  <TextField
-    margin="dense"
-    name="note"
-    label="Add Note"
-    type="text"
-    fullWidth
-    value={note}
-    onChange={(e) => setNote(e.target.value)}
-    InputProps={{
-      endAdornment: (
-        <Button
-          onClick={handleAddNote}
-          color="primary"
-          variant="outlined"
-          sx={{ height: '100%', borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}
-        >
-          <AddIcon />
-        </Button>
-      ),
-    }}
-  />
-</Box>
-
+          </Box>
           <Box mt={2}>
             {newArticle.notes.map((note, index) => (
               <Typography key={index} variant="body2">
@@ -349,6 +378,30 @@ export const Article: React.FC = () => {
           </Button>
           <Button onClick={handleDeleteArticle} color="secondary">
             Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={fillOpen} onClose={handleFillClose}>
+        <DialogTitle>Fill Article Quantity</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            name="quantityChange"
+            label="Quantity Change"
+            type="number"
+            fullWidth
+            value={quantityChange === 0 ? '' : quantityChange}
+            onChange={(e) => setQuantityChange(parseInt(e.target.value))}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleFillClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleFillArticle} color="primary">
+            Update Quantity
           </Button>
         </DialogActions>
       </Dialog>
