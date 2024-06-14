@@ -155,8 +155,8 @@ export const Article: React.FC = () => {
 
   return (
     <Box p={2}>
-      <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-        <Typography variant="h4" sx={{ fontWeight: 'bold' }}>Articles</Typography>
+      <Box display="flex"  justifyContent="end" alignItems="center" mb={2}>
+        {/* <Typography variant="h4" sx={{ fontWeight: 'bold' }}>Articles</Typography>   */}
         <Button
           variant="contained"
           color="primary"

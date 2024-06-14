@@ -7,13 +7,19 @@ import IconButton from '@mui/material/IconButton';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import {  Assignment, NotificationAddOutlined } from '@mui/icons-material';
+import { Badge } from '@mui/material';
+import { useGetAllAuditQuery } from '../api/queries/audit/useGetAllAuditQuery';
 
 export default function MenuAppBar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const location = useLocation();
-  const {logout} = useAuth();
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const {data} = useGetAllAuditQuery();
 
 
 
@@ -25,48 +31,65 @@ export default function MenuAppBar() {
     setAnchorEl(null);
   };
 
+  const isHaveNotification = true;
+
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar  position="fixed" sx={{ top: 0, zIndex: 1100 }}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            {location.pathname.trim().replace('/', '')[0].toUpperCase() + location.pathname.trim().replace('/', '').slice(1)}
+            {location.pathname.trim().replace('/', '')[0]?.toUpperCase() + location.pathname.trim().replace('/', '').slice(1)}
           </Typography>
-          {(
-            <div>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={handleClose}>Team</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={logout}>Logout</MenuItem>
-              </Menu>
-            </div>
-          )}
+          <div>
+          <IconButton>
+            <Badge badgeContent={12} color="error">
+          <NotificationAddOutlined color={isHaveNotification ? 'warning' :'inherit'} />
+            </Badge>
+          </IconButton>
+          </div>
+          <div>
+          <IconButton onClick={()=>{
+            navigate('/logs')
+          }}>
+            <Badge badgeContent={data?.totalNotSeenCount} color="error">
+           {data && <Assignment color={data?.totalNotSeenCount > 0 ? 'warning' :'inherit'} />}
+            </Badge>
+          </IconButton>
+          </div>
+          <div>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleMenu}
+              color="inherit"
+            >
+             <AccountCircle />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              <MenuItem onClick={handleClose}>Team</MenuItem>
+              <MenuItem onClick={handleClose}>My account</MenuItem>
+              <MenuItem onClick={logout}>Logout</MenuItem>
+            </Menu>
+          </div>
         </Toolbar>
       </AppBar>
+      <Toolbar /> 
     </Box>
   );
 }

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { BottomNavigation, BottomNavigationAction } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import ArticleIcon from '@mui/icons-material/Article';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Article } from '@mui/icons-material';
 
 const BottomNavBar: React.FC = () => {
   const [value, setValue] = useState(0);
@@ -54,10 +54,11 @@ const BottomNavBar: React.FC = () => {
         left: 0,
         right: 0,
         zIndex: 1000,
+        borderTop: '1px solid #e0e0e0',
       }}
     >
       <BottomNavigationAction label="Home" icon={<HomeIcon />} />
-      <BottomNavigationAction label="Article" icon={<Article />} />
+      <BottomNavigationAction label="Article" icon={<ArticleIcon />} />
       <BottomNavigationAction label="Team" icon={<AccountCircleIcon />} />
     </BottomNavigation>
   );

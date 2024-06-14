@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {  } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import ProtectedRoute from './ProtectedRoute';
@@ -9,10 +9,19 @@ import { Article } from '../pages/Article';
 import Login from '../pages/Login';
 import MenuAppBar from '../components/MenuAppBar';
 import { Team } from '../pages/Team';
+import { Logs } from '../pages/Logs';
 
 const AppRoute: React.FC = () => {
+
   const { isLoggedIn } = useAuth();
   const location = useLocation();
+
+  console.log('isLoggedIn',isLoggedIn);
+
+  if(isLoggedIn === null){
+    return <div>Loading...</div>
+  }
+
 
   const notShow = ['/login'].includes(location.pathname);
 
@@ -48,6 +57,14 @@ const AppRoute: React.FC = () => {
               <Team />
             </ProtectedRoute>
           }
+        />
+        <Route
+        path='/logs'
+        element={
+          <ProtectedRoute>
+            <Logs/>
+          </ProtectedRoute>
+        }
         />
         <Route path="/" element={isLoggedIn ? <Navigate to="/home" /> : <Navigate to="/login" />} />
         <Route path="*" element={<Navigate to="/" />} />

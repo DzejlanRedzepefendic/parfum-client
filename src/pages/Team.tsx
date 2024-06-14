@@ -20,10 +20,16 @@ import AddIcon from '@mui/icons-material/Add';
 import PersonIcon from '@mui/icons-material/Person';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useRegisterQuery } from '../api/queries/auth/useRegisterQuery';
+import { useGetAllUsers } from '../api/queries/user/useGetAllUsers';
+import { useUpdateUser } from '../api/queries/user/useUpdateUser';
+import { PullUser } from '../interfaces/user.interface';
+import { toast } from 'react-toastify';
 
 interface User {
   username: string;
   password: string;
+  _id:string;
 }
 
 export const Team: React.FC = () => {
@@ -31,8 +37,15 @@ export const Team: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const [newUser, setNewUser] = useState<User>({ username: '', password: '' });
+  const [selectedUser, setSelectedUser] = useState<PullUser | null>(null);
+  const [newUser, setNewUser] = useState<User>({ username: '', password: '', _id:''});
+  const {mutateAsync} = useRegisterQuery();
+  const {data} = useGetAllUsers()
+  const {mutateAsync:mutateAsyncUpdateUser} = useUpdateUser()
+
+  console.log(data,"data");
+
+  console.log(newUser,"newUser");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -42,10 +55,16 @@ export const Team: React.FC = () => {
     setOpen(false);
   };
 
-  const handleAddUser = () => {
+  const handleAddUser = async () => {
     setUsers([...users, newUser]);
-    setNewUser({ username: '', password: '' });
-    handleClose();
+    await mutateAsync(newUser,{
+      onSuccess:()=>{
+        handleClose();
+        toast.success('User added successfully');
+      }
+    
+    });
+    setNewUser({ username: '', password: '' ,_id:''});
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,7 +72,7 @@ export const Team: React.FC = () => {
     setNewUser((prevUser) => ({ ...prevUser, [name]: value }));
   };
 
-  const handleEditClick = (user: User) => {
+  const handleEditClick = async (user: PullUser) => {
     setSelectedUser(user);
     setNewUser(user);
     setEditOpen(true);
@@ -62,15 +81,21 @@ export const Team: React.FC = () => {
   const handleEditClose = () => {
     setEditOpen(false);
     setSelectedUser(null);
-    setNewUser({ username: '', password: '' });
+    setNewUser({ username: '', password: '',_id:''});
   };
 
-  const handleEditUser = () => {
-    setUsers(users.map((user) => (user.username === selectedUser?.username ? newUser : user)));
-    handleEditClose();
+  const handleEditUser = async () => {
+    await mutateAsyncUpdateUser(newUser,{
+      onSuccess:()=>{
+        handleEditClose();
+        toast.success('User updated successfully');
+      }
+    
+    });
+    // setUsers(users.map((user) => (user.username === selectedUser?.username ? newUser : user)));
   };
 
-  const handleDeleteClick = (user: User) => {
+  const handleDeleteClick = (user: PullUser) => {
     setSelectedUser(user);
     setDeleteOpen(true);
   };
@@ -86,21 +111,20 @@ export const Team: React.FC = () => {
   };
 
   return (
-    <Box p={2}>
-      <Box sx={{borderBottom:'1px solid #1976d2',paddingBottom:'12px'}} display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-        <Typography  variant="h6" sx={{ fontWeight: 'bold' }}>Team Members</Typography>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleClickOpen}
-          startIcon={<AddIcon />}
-          sx={{ backgroundColor: '#4CAF50', '&:hover': { backgroundColor: '#45A049' } }}
-        >
-          Add Team Member
-        </Button>
-      </Box>
+    <Box p={2} sx={{paddingBottom:'50px'}}>
+    <Box sx={{ paddingBottom: '12px'}} display="flex" justifyContent="center" alignItems="center" mb={2}>
+  <Button
+    variant="contained"
+    color="primary"
+    onClick={handleClickOpen}
+    startIcon={<AddIcon />}
+    sx={{ width: '100%', '&:hover': { backgroundColor: '#45A049' } }}
+  >
+    Add Team Member
+  </Button>
+</Box>
       <List>
-        {users.map((user, index) => (
+        {data?.map((user, index) => (
           <Paper key={index} elevation={3} sx={{ marginBottom: 2, padding: 2 }}>
             <ListItem>
               <Avatar sx={{ marginRight: 2 }}>
@@ -179,7 +203,7 @@ export const Team: React.FC = () => {
           <Button onClick={handleEditClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleEditUser} color="primary">
+          <Button onClick={()=>handleEditUser()} color="primary">
             Save
           </Button>
         </DialogActions>

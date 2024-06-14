@@ -18,10 +18,10 @@ const Login = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     // TUDU: Implement login logic
-    login();
-    if(true){
+    const res = await login({username, password});
+    if(res.token){
         navigate("/home")
     }
   };
