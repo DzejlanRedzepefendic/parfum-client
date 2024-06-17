@@ -10,6 +10,8 @@ import Login from '../pages/Login';
 import MenuAppBar from '../components/MenuAppBar';
 import { Team } from '../pages/Team';
 import { Logs } from '../pages/Logs';
+import { Company } from '../pages/Company';
+import CompanyDetails from '../pages/CompanyDetails';
 
 const AppRoute: React.FC = () => {
 
@@ -66,6 +68,16 @@ const AppRoute: React.FC = () => {
           </ProtectedRoute>
         }
         />
+        <Route path='/company' element={
+          <ProtectedRoute>
+             <Company/>
+          </ProtectedRoute>
+        } />
+        <Route path='/company/:id' element={
+          <ProtectedRoute>
+            <CompanyDetails/>
+          </ProtectedRoute>
+        } />
         <Route path="/" element={isLoggedIn ? <Navigate to="/home" /> : <Navigate to="/login" />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

@@ -12,6 +12,7 @@ import { useAuth } from '../context/AuthContext';
 import {  Assignment, NotificationAddOutlined } from '@mui/icons-material';
 import { Badge } from '@mui/material';
 import { useGetAllAuditQuery } from '../api/queries/audit/useGetAllAuditQuery';
+import { getTitleFromPathname } from '../utils/locationBuilder';
 
 export default function MenuAppBar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -38,7 +39,7 @@ export default function MenuAppBar() {
       <AppBar  position="fixed" sx={{ top: 0, zIndex: 1100 }}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            {location.pathname.trim().replace('/', '')[0]?.toUpperCase() + location.pathname.trim().replace('/', '').slice(1)}
+            {getTitleFromPathname(location.pathname)}
           </Typography>
           <div>
           <IconButton>

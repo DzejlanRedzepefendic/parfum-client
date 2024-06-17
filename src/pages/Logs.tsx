@@ -58,29 +58,29 @@ export const Logs: React.FC = () => {
               <Box sx={{ width: '100%' }}>
                 <Stack direction="row" justifyContent="space-between" sx={{ marginBottom: 1 }}>
                   <Typography variant="body2" color="text.secondary">Action:</Typography>
-                  <Typography variant="body2" color="text.primary">{log.action}</Typography>
+                  <Typography variant="body2" color="text.primary">{log?.action}</Typography>
                 </Stack>
                 <Stack direction="row" justifyContent="space-between" sx={{ marginBottom: 1 }}>
                   <Typography variant="body2" color="text.secondary">Executed By:</Typography>
-                  <Typography variant="body2" color="text.primary">{log.executedByDetails.username}</Typography>
+                  <Typography variant="body2" color="text.primary">{log?.executedByDetails?.username}</Typography>
                 </Stack>
                 <Stack direction="row" justifyContent="space-between" sx={{ marginBottom: 1 }}>
                   <Typography variant="body2" color="text.secondary">Date:</Typography>
                   <Typography variant="body2" color="text.primary">
-                    {format(new Date(log.createdAt), 'dd/MM/yyyy HH:mm:ss')}
+                    {format(new Date(log?.createdAt), 'dd/MM/yyyy HH:mm:ss')}
                   </Typography>
                 </Stack>
                 <Stack direction="row" justifyContent="space-between" sx={{ marginBottom: 1 }}>
                   <Typography variant="body2" color="text.secondary">Username:</Typography>
-                  <Typography variant="body2" color="text.primary">{log.changes.currentState.username}</Typography>
+                  <Typography variant="body2" color="text.primary">{log?.changes?.currentState?.username}</Typography>
                 </Stack>
                 <Stack direction="row" justifyContent="space-between" sx={{ marginBottom: 1 }}>
                   <Typography variant="body2" color="text.secondary">Role:</Typography>
-                  <Typography variant="body2" color="text.primary">{log.changes.currentState.role}</Typography>
+                  <Typography variant="body2" color="text.primary">{log?.changes.currentState?.role}</Typography>
                 </Stack>
                 <Stack direction="row" justifyContent="space-between">
                   <Typography variant="body2" color="text.secondary">ID:</Typography>
-                  <Typography variant="body2" color="text.primary">{log.changes.currentState._id}</Typography>
+                  <Typography variant="body2" color="text.primary">{log?.changes?.currentState?._id}</Typography>
                 </Stack>
               </Box>
             </ListItem>

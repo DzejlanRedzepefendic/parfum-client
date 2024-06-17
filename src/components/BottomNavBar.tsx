@@ -4,6 +4,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ArticleIcon from '@mui/icons-material/Article';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { Store } from '@mui/icons-material';
 
 const BottomNavBar: React.FC = () => {
   const [value, setValue] = useState(0);
@@ -21,6 +22,9 @@ const BottomNavBar: React.FC = () => {
       case '/team':
         setValue(2);
         break;
+      case 'company':
+        setValue(3);
+        break;
       default:
         setValue(0);
     }
@@ -37,6 +41,9 @@ const BottomNavBar: React.FC = () => {
         break;
       case 2:
         navigate('/team');
+        break;
+      case 3:
+        navigate('/company');
         break;
       default:
         break;
@@ -60,6 +67,7 @@ const BottomNavBar: React.FC = () => {
       <BottomNavigationAction label="Home" icon={<HomeIcon />} />
       <BottomNavigationAction label="Article" icon={<ArticleIcon />} />
       <BottomNavigationAction label="Team" icon={<AccountCircleIcon />} />
+      <BottomNavigationAction label="Company" icon={<Store />} />
     </BottomNavigation>
   );
 };
