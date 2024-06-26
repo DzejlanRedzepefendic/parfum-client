@@ -10,7 +10,7 @@ import {
   Typography
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { Article, CreateArticle } from '../interfaces/article.interface';
+import {  CreateArticle } from '../interfaces/article.interface';
 import { useCreateArticleQuery } from '../api/queries/articl/useCreateArticleQuery';
 import { Delete } from '@mui/icons-material';
 
@@ -63,13 +63,13 @@ const CreateArticleModal: React.FC<CreateArticleModalProps> = ({ open, onClose }
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Add New Article</DialogTitle>
+      <DialogTitle>Dodaj novi Parfem</DialogTitle>
       <DialogContent>
         <TextField
           autoFocus
           margin="dense"
           name="name"
-          label="Name"
+          label="Ime Parfema"
           type="text"
           fullWidth
           value={newArticle.name}
@@ -78,7 +78,7 @@ const CreateArticleModal: React.FC<CreateArticleModalProps> = ({ open, onClose }
         <TextField
           margin="dense"
           name="price"
-          label="Price"
+          label="Cena"
           type="number"
           fullWidth
           value={newArticle.price}
@@ -87,7 +87,7 @@ const CreateArticleModal: React.FC<CreateArticleModalProps> = ({ open, onClose }
         <TextField
           margin="dense"
           name="description"
-          label="Description"
+          label="Opis Parfema"
           type="text"
           fullWidth
           value={newArticle.description}
@@ -96,7 +96,7 @@ const CreateArticleModal: React.FC<CreateArticleModalProps> = ({ open, onClose }
         <TextField
           margin="dense"
           name="quantity"
-          label="Initial Quantity"
+          label="Količina Parfema"
           type="number"
           fullWidth
           value={newArticle.quantity}
@@ -106,7 +106,7 @@ const CreateArticleModal: React.FC<CreateArticleModalProps> = ({ open, onClose }
           <TextField
             margin="dense"
             name="note"
-            label="Add Note"
+            label="Dodaj note"
             type="text"
             fullWidth
             value={note}
@@ -143,10 +143,10 @@ const CreateArticleModal: React.FC<CreateArticleModalProps> = ({ open, onClose }
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary">
-          Cancel
+          Odustani
         </Button>
         <Button onClick={handleSubmit} color="primary" disabled={isPending}>
-          {isPending ? 'Submitting...' : 'Add'}
+          {isPending ? 'Dodavanje ...' : 'Dodaj Parfem'}
         </Button>
       </DialogActions>
       {isError && <Typography color="error">{error?.message}</Typography>}

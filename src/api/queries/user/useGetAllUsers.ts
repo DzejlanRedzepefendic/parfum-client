@@ -1,20 +1,18 @@
-import { useQuery } from "@tanstack/react-query";
-import { PullUser } from "../../../interfaces/user.interface";
-import { getAllUsers } from "../../request/user";
-import { QUERY_KEYS } from "../../../constants/queryKey";
+import {useQuery} from "@tanstack/react-query";
+import {PullUser} from "../../../interfaces/user.interface";
+import {getAllUsers} from "../../request/user";
+import {QUERY_KEYS} from "../../../constants/queryKey";
 
 export const useGetAllUsers = () => {
-    const query = useQuery<PullUser[], Error>({
-        queryKey:[QUERY_KEYS.GET_ALL_USERS],
-        staleTime:Infinity,
+    return useQuery<PullUser[], Error>({
+        queryKey: [QUERY_KEYS.GET_ALL_USERS],
+        staleTime: Infinity,
         queryFn: async () => {
             try {
-                const data = await getAllUsers();
-                return data;
+                return await getAllUsers();
             } catch (error) {
-                throw new Error('No users found');
+                throw new Error('Neuspješno učitavanje korisnika');
             }
         }
     });
-    return query;
 }

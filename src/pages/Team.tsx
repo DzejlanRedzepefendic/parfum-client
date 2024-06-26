@@ -43,9 +43,7 @@ export const Team: React.FC = () => {
   const {data} = useGetAllUsers()
   const {mutateAsync:mutateAsyncUpdateUser} = useUpdateUser()
 
-  console.log(data,"data");
 
-  console.log(newUser,"newUser");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -60,7 +58,7 @@ export const Team: React.FC = () => {
     await mutateAsync(newUser,{
       onSuccess:()=>{
         handleClose();
-        toast.success('User added successfully');
+        toast.success('Korisnik uspješno dodan');
       }
     
     });
@@ -88,7 +86,7 @@ export const Team: React.FC = () => {
     await mutateAsyncUpdateUser(newUser,{
       onSuccess:()=>{
         handleEditClose();
-        toast.success('User updated successfully');
+        toast.success('Korisnik uspješno izmjenjen');
       }
     
     });
@@ -120,7 +118,7 @@ export const Team: React.FC = () => {
     startIcon={<AddIcon />}
     sx={{ width: '100%', '&:hover': { backgroundColor: '#45A049' } }}
   >
-    Add Team Member
+    Dodaj korisnika u tim
   </Button>
 </Box>
       <List>
@@ -144,13 +142,13 @@ export const Team: React.FC = () => {
         ))}
       </List>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Add New Team Member</DialogTitle>
+        <DialogTitle>Dodaj novog korisnika u timu</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
             margin="dense"
             name="username"
-            label="Username"
+            label="Korisničko ime"
             type="text"
             fullWidth
             value={newUser.username}
@@ -159,7 +157,7 @@ export const Team: React.FC = () => {
           <TextField
             margin="dense"
             name="password"
-            label="Password"
+            label="Lozinka"
             type="password"
             fullWidth
             value={newUser.password}
@@ -168,22 +166,22 @@ export const Team: React.FC = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            Cancel
+            Odustani
           </Button>
           <Button onClick={handleAddUser} color="primary">
-            Add
+            Dodaj
           </Button>
         </DialogActions>
       </Dialog>
 
       <Dialog open={editOpen} onClose={handleEditClose}>
-        <DialogTitle>Edit Team Member</DialogTitle>
+        <DialogTitle>Izmeni korisnika</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
             margin="dense"
             name="username"
-            label="Username"
+            label="Korisničko ime"
             type="text"
             fullWidth
             value={newUser.username}
@@ -192,7 +190,7 @@ export const Team: React.FC = () => {
           <TextField
             margin="dense"
             name="password"
-            label="Password"
+            label="Lozinka"
             type="password"
             fullWidth
             value={newUser.password}
@@ -201,25 +199,25 @@ export const Team: React.FC = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleEditClose} color="primary">
-            Cancel
+            Odustani
           </Button>
           <Button onClick={()=>handleEditUser()} color="primary">
-            Save
+            Sačuvaj
           </Button>
         </DialogActions>
       </Dialog>
 
       <Dialog open={deleteOpen} onClose={handleDeleteClose}>
-        <DialogTitle>Confirm Delete</DialogTitle>
+        <DialogTitle>Potvrdi brisanje</DialogTitle>
         <DialogContent>
-          <Typography>Are you sure you want to delete {selectedUser?.username}?</Typography>
+          <Typography>Da li si siguran da zelis obrisati {selectedUser?.username}?</Typography>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleDeleteClose} color="primary">
-            Cancel
+            Odustani
           </Button>
           <Button onClick={handleDeleteUser} color="secondary">
-            Delete
+            Obriši
           </Button>
         </DialogActions>
       </Dialog>

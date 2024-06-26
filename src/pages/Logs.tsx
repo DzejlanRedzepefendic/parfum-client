@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useGetAllAuditQuery } from '../api/queries/audit/useGetAllAuditQuery';
-import { Avatar, Box, List, ListItem, Paper, Stack, Typography, Button, ButtonGroup, ToggleButtonGroup, ToggleButton, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { Avatar, Box, List, ListItem, Paper, Stack, Typography, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { PersonPinCircleOutlined } from '@mui/icons-material';
 import { format } from 'date-fns';
 import { useMarkAuditQuery } from '../api/queries/audit/useMarkAuditQuery';
@@ -19,10 +19,12 @@ export const Logs: React.FC = () => {
   return (
     <Box p={2} sx={{ paddingBottom: '50px' }}>
       <Typography variant="h5" gutterBottom align="center">
-        Audit Logs
+        Logovi
       </Typography>
       <FormControl fullWidth sx={{ marginBottom: 2 }}>
-  <InputLabel id="sort-select-label">Sort By</InputLabel>
+  <InputLabel id="sort-select-label">
+    Sortiraj po
+  </InputLabel>
   <Select
     labelId="sort-select-label"
     value={`${sortBy}-${order}`}
@@ -30,12 +32,20 @@ export const Logs: React.FC = () => {
       const [field, direction] = event.target.value.split('-');
       handleSortChange(field, direction);
     }}
-    label="Sort By"
+    label="Sortiraj po"
   >
-    <MenuItem value="createdAt-ASC">Created At Ascending</MenuItem>
-    <MenuItem value="createdAt-DESC">Created At Descending</MenuItem>
-    <MenuItem value="seen-ASC">Seen Ascending</MenuItem>
-    <MenuItem value="seen-DESC">Seen Descending</MenuItem>
+    <MenuItem value="createdAt-ASC">
+        Kreirano rastuce
+    </MenuItem>
+    <MenuItem value="createdAt-DESC">
+        Kreirano opadajuce
+    </MenuItem>
+    <MenuItem value="seen-ASC">
+        Pregledano rastuce
+    </MenuItem>
+    <MenuItem value="seen-DESC">
+        Pregledano opadajuce
+    </MenuItem>
   </Select>
 </FormControl>
       <List>

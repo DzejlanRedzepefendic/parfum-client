@@ -46,13 +46,13 @@ const CreateCompanyModal: React.FC<CreateCompanyModalProps> = ({ open, onClose }
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Add New Company</DialogTitle>
+      <DialogTitle>Dodaj novog musteriju</DialogTitle>
       <DialogContent>
         <TextField
           autoFocus
           margin="dense"
           name="name"
-          label="Name"
+          label="Naziv musterije"
           type="text"
           fullWidth
           value={newCompany.name}
@@ -62,7 +62,7 @@ const CreateCompanyModal: React.FC<CreateCompanyModalProps> = ({ open, onClose }
         <TextField
           margin="dense"
           name="phone"
-          label="Phone"
+          label="Telefon"
           type="text"
           fullWidth
           value={newCompany.contact?.phone || ''}
@@ -89,7 +89,7 @@ const CreateCompanyModal: React.FC<CreateCompanyModalProps> = ({ open, onClose }
           color="primary"
           sx={{ mt: 2, justifyContent: 'space-between' }}
         >
-          {showAddress ? 'Hide Address' : 'Add Address'}
+          {showAddress ? 'Sakrij adresu' : 'Dodaj adresu'}
           {showAddress ? <ExpandLessIcon /> : <ExpandMoreIcon />}
         </Button>
         {showAddress && (
@@ -97,7 +97,7 @@ const CreateCompanyModal: React.FC<CreateCompanyModalProps> = ({ open, onClose }
             <TextField
               margin="dense"
               name="street"
-              label="Street"
+              label="Ulica"
               type="text"
               fullWidth
               value={newCompany.address?.street || ''}
@@ -109,7 +109,7 @@ const CreateCompanyModal: React.FC<CreateCompanyModalProps> = ({ open, onClose }
             <TextField
               margin="dense"
               name="city"
-              label="City"
+              label="Grad"
               type="text"
               fullWidth
               value={newCompany.address?.city || ''}
@@ -121,7 +121,7 @@ const CreateCompanyModal: React.FC<CreateCompanyModalProps> = ({ open, onClose }
             <TextField
               margin="dense"
               name="state"
-              label="State"
+              label="Oblast"
               type="text"
               fullWidth
               value={newCompany.address?.state || ''}
@@ -133,7 +133,7 @@ const CreateCompanyModal: React.FC<CreateCompanyModalProps> = ({ open, onClose }
             <TextField
               margin="dense"
               name="zipCode"
-              label="Zip Code"
+              label="Zip kod"
               type="text"
               fullWidth
               value={newCompany.address?.zipCode || ''}
@@ -145,7 +145,7 @@ const CreateCompanyModal: React.FC<CreateCompanyModalProps> = ({ open, onClose }
             <TextField
               margin="dense"
               name="country"
-              label="Country"
+              label="Drzava"
               type="text"
               fullWidth
               value={newCompany.address?.country || ''}
@@ -162,7 +162,7 @@ const CreateCompanyModal: React.FC<CreateCompanyModalProps> = ({ open, onClose }
           color="primary"
           sx={{ mt: 2, justifyContent: 'space-between' }}
         >
-          {showBankDetails ? 'Hide Bank Details' : 'Add Bank Details'}
+          {showBankDetails ? 'Sakrij detalje banke' : 'Dodaj bankovne detalje'}
           {showBankDetails ? <ExpandLessIcon /> : <ExpandMoreIcon />}
         </Button>
         {showBankDetails && (
@@ -170,7 +170,7 @@ const CreateCompanyModal: React.FC<CreateCompanyModalProps> = ({ open, onClose }
             <TextField
               margin="dense"
               name="accountNumber"
-              label="Account Number"
+              label="Broj racuna"
               type="text"
               fullWidth
               value={newCompany.bankDetails?.accountNumber || ''}
@@ -182,7 +182,7 @@ const CreateCompanyModal: React.FC<CreateCompanyModalProps> = ({ open, onClose }
             <TextField
               margin="dense"
               name="bankName"
-              label="Bank Name"
+              label="Naziv banke"
               type="text"
               fullWidth
               value={newCompany.bankDetails?.bankName || ''}
@@ -220,10 +220,10 @@ const CreateCompanyModal: React.FC<CreateCompanyModalProps> = ({ open, onClose }
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary">
-          Cancel
+          Odustani
         </Button>
         <Button onClick={handleSubmit} color="primary" disabled={isPending}>
-          {isPending ? 'Submitting...' : 'Add'}
+          {isPending ? 'Dodavanje...' : 'Dodaj musteriju'}
         </Button>
       </DialogActions>
       {isError && <Typography color="error">{error?.message}</Typography>}

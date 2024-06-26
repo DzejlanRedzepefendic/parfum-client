@@ -49,13 +49,13 @@ export const Article: React.FC = () => {
           startIcon={<AddIcon />}
           sx={{ backgroundColor: '#4CAF50', '&:hover': { backgroundColor: '#45A049' } }}
         >
-          Add Article
+          Dodaj Parfem
         </Button>
       </Box>
       <Box mb={2}>
         <TextField
           fullWidth
-          placeholder="Search Articles"
+          placeholder="Pretraži parfeme..."
           variant="outlined"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}

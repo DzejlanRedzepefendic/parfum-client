@@ -64,10 +64,10 @@ const BottomNavBar: React.FC = () => {
         borderTop: '1px solid #e0e0e0',
       }}
     >
-      <BottomNavigationAction label="Home" icon={<HomeIcon />} />
-      <BottomNavigationAction label="Article" icon={<ArticleIcon />} />
-      <BottomNavigationAction label="Team" icon={<AccountCircleIcon />} />
-      <BottomNavigationAction label="Company" icon={<Store />} />
+      <BottomNavigationAction label="Pocetna" icon={<HomeIcon />} />
+      <BottomNavigationAction label="Parfemi" icon={<ArticleIcon />} />
+      <BottomNavigationAction label="Tim" icon={<AccountCircleIcon />} />
+      <BottomNavigationAction label="Musterije" icon={<Store />} />
     </BottomNavigation>
   );
 };

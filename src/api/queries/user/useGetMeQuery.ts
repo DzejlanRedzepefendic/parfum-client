@@ -1,7 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
-import { GetMeResponse } from "../../../interfaces/user.interface";
-import { getMe } from "../../request/user";
-import { QUERY_KEYS } from "../../../constants/queryKey";
+import {useQuery} from "@tanstack/react-query";
+import {GetMeResponse} from "../../../interfaces/user.interface";
+import {getMe} from "../../request/user";
+import {QUERY_KEYS} from "../../../constants/queryKey";
+import React from "react";
 
 
 interface Props { 
@@ -9,9 +10,9 @@ interface Props {
 }
 export const useGetMeQuery = (props:Props) => {
 
-    const query = useQuery<GetMeResponse, Error>({
-        queryKey:[QUERY_KEYS.GET_ME],
-        staleTime:Infinity,
+    return useQuery<GetMeResponse, Error>({
+        queryKey: [QUERY_KEYS.GET_ME],
+        staleTime: Infinity,
         queryFn: async () => {
             try {
                 const data = await getMe();
@@ -24,6 +25,4 @@ export const useGetMeQuery = (props:Props) => {
             }
         }
     });
-
-    return query;
 }

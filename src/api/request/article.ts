@@ -1,4 +1,4 @@
-import {  Article, ArticleData, CreateArticle, EditArticle, SearchParams } from "../../interfaces/article.interface";
+import {   ArticleData, CreateArticle, EditArticle, SearchParams } from "../../interfaces/article.interface";
 import axiosInstance from "../config";
 
 export const createArticle = async (data:CreateArticle) =>{
@@ -14,5 +14,10 @@ export const getAllArticles = async (props:SearchParams):Promise<ArticleData> =>
 
 export const editArticle = async(data:EditArticle,id:string) => {
     const res = await axiosInstance.put(`/articles/${id}`, data);
+    return res.data;
+}
+
+export const deleteArticle = async(id:string) => {
+    const res = await axiosInstance.delete(`/articles/${id}`);
     return res.data;
 }

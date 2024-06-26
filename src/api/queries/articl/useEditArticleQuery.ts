@@ -11,7 +11,7 @@ const queryClient = useQueryClient();
 const mutation = useMutation({
     mutationFn:async (data:{data:EditArticle,id:string})=> await editArticle(data.data,data.id),
     onSuccess:()=>{
-        toast.success('Article edited successfully');
+        toast.success('Parfem uspješno izmjenjen');
         Promise.all([
             queryClient.invalidateQueries({
                 queryKey:[QUERY_KEYS.GET_ALL_AUDITS]

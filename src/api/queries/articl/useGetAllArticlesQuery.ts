@@ -11,7 +11,7 @@ export const useGetAllArticlesQuery = (props:SearchParams) => {
                 const data = await getAllArticles(props);
                 return data;
             } catch (error) {
-                throw new Error('No articles found');
+                throw new Error('Došlo je do greške prilikom dohvaćanja svih parfema');
             }
         }
     });

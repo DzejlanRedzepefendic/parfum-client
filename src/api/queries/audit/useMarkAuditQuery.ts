@@ -13,11 +13,11 @@ export const useMarkAuditQuery = () => {
                return await markAudit(id);
             } catch (error) {
                 console.log(error);
-                throw new Error('No audit found');
+                throw new Error('Došlo je do greške prilikom označavanja loga');
             }
         },
         onSuccess: () => {
-            toast.success('Audit marked successfully');
+            toast.success('Log uspješno označen');
             return Promise.all([
                 queryClient.invalidateQueries({
                     queryKey: [QUERY_KEYS.GET_ALL_AUDITS],

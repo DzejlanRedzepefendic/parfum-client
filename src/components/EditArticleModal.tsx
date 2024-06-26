@@ -55,13 +55,13 @@ const EditArticleModal: React.FC<EditArticleModalProps> = ({ article, open, onCl
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Edit Article</DialogTitle>
+      <DialogTitle>Izmeni Parfem</DialogTitle>
       <DialogContent>
         <TextField
           autoFocus
           margin="dense"
           name="name"
-          label="Name"
+          label="Ime Parfema"
           type="text"
           fullWidth
           value={formValues.name}
@@ -70,7 +70,7 @@ const EditArticleModal: React.FC<EditArticleModalProps> = ({ article, open, onCl
         <TextField
           margin="dense"
           name="price"
-          label="Price"
+          label="Cena"
           type="number"
           fullWidth
           value={formValues.price.$numberDecimal}
@@ -79,7 +79,7 @@ const EditArticleModal: React.FC<EditArticleModalProps> = ({ article, open, onCl
         <TextField
           margin="dense"
           name="description"
-          label="Description"
+          label="Opis Parfema"
           type="text"
           fullWidth
           value={formValues.description}
@@ -88,7 +88,7 @@ const EditArticleModal: React.FC<EditArticleModalProps> = ({ article, open, onCl
         <TextField
           margin="dense"
           name="quantity"
-          label="Quantity"
+          label="Količina"
           type="number"
           fullWidth
           value={formValues.quantity.$numberDecimal}
@@ -98,7 +98,7 @@ const EditArticleModal: React.FC<EditArticleModalProps> = ({ article, open, onCl
           <TextField
             margin="dense"
             name="note"
-            label="Add Note"
+            label="Dodaj note"
             type="text"
             fullWidth
             value={note}
@@ -135,10 +135,10 @@ const EditArticleModal: React.FC<EditArticleModalProps> = ({ article, open, onCl
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary">
-          Cancel
+          Odustani
         </Button>
         <Button onClick={handleSubmit} color="primary" disabled={isPending}>
-          {isPending ? 'Submitting...' : 'Save'}
+          {isPending ? 'Izmena Parfema...' : 'Izmeni Parfem'}
         </Button>
       </DialogActions>
       {isError && <Typography color="error">{error?.message}</Typography>}

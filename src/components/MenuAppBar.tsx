@@ -83,9 +83,9 @@ export default function MenuAppBar() {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <MenuItem onClick={handleClose}>Team</MenuItem>
-              <MenuItem onClick={handleClose}>My account</MenuItem>
-              <MenuItem onClick={logout}>Logout</MenuItem>
+              {/*<MenuItem onClick={handleClose}>Tim</MenuItem>*/}
+              {/*<MenuItem onClick={handleClose}>Moj Profil</MenuItem>*/}
+              <MenuItem onClick={logout}>Odjavi se</MenuItem>
             </Menu>
           </div>
         </Toolbar>

@@ -13,7 +13,7 @@ export const useGetAllAuditQuery = (props?:SortQuery) => {
                 return data;
             } catch (error) {
                 console.log(error);
-                throw new Error('No audits found');
+                throw new Error('Došlo je do greške prilikom dohvaćanja svih logova');
             }
         }
     });

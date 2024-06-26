@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Button,
   TextField,
   InputAdornment,
   CircularProgress,
-  Typography,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
@@ -18,9 +17,9 @@ import { Company as CompanyType } from '../interfaces/company.interface';
 export const Company: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(9999);
-  const [sortBy, setSortBy] = useState('ASC');
+  const [page, ] = useState(1);
+  const [limit, ] = useState(9999);
+  const [sortBy, ] = useState('ASC');
 
   const queryParamas: QueryParams = { page, limit, sortBy, name: searchTerm };
   const { data, isLoading, isError, error } = useGetAllCompanyQuery(queryParamas);
@@ -49,13 +48,13 @@ export const Company: React.FC = () => {
           startIcon={<AddIcon />}
           sx={{ backgroundColor: '#4CAF50', '&:hover': { backgroundColor: '#45A049' } }}
         >
-          Add Company
+          Dodaj musteriju
         </Button>
       </Box>
       <Box mb={2}>
         <TextField
           fullWidth
-          placeholder="Search Companies"
+          placeholder="Pretrazi po nazivu..."
           variant="outlined"
           value={searchTerm}
           onChange={handleSearchChange}

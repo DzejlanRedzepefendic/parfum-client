@@ -7,7 +7,6 @@ import {
   TextField,
   Box,
   Button,
-  Typography
 } from '@mui/material';
 import { Company as CompanyType, CreateCompanyRequestData } from '../interfaces/company.interface';
 
@@ -51,13 +50,13 @@ const EditCompanyModal: React.FC<EditCompanyModalProps> = ({ open, onClose, comp
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Edit Company</DialogTitle>
+      <DialogTitle>Izmeni musteriju</DialogTitle>
       <DialogContent>
         <TextField
           autoFocus
           margin="dense"
           name="name"
-          label="Name"
+          label="Naziv musterije"
           type="text"
           fullWidth
           value={editedCompany.name}
@@ -76,7 +75,7 @@ const EditCompanyModal: React.FC<EditCompanyModalProps> = ({ open, onClose, comp
         <TextField
           margin="dense"
           name="phone"
-          label="Phone"
+          label="Telefon"
           type="text"
           fullWidth
           value={editedCompany.contact?.phone || ''}
@@ -101,7 +100,7 @@ const EditCompanyModal: React.FC<EditCompanyModalProps> = ({ open, onClose, comp
           <TextField
             margin="dense"
             name="street"
-            label="Street"
+            label="Ulica"
             type="text"
             fullWidth
             value={editedCompany.address?.street || ''}
@@ -113,7 +112,7 @@ const EditCompanyModal: React.FC<EditCompanyModalProps> = ({ open, onClose, comp
           <TextField
             margin="dense"
             name="city"
-            label="City"
+            label="Grad"
             type="text"
             fullWidth
             value={editedCompany.address?.city || ''}
@@ -125,7 +124,7 @@ const EditCompanyModal: React.FC<EditCompanyModalProps> = ({ open, onClose, comp
           <TextField
             margin="dense"
             name="state"
-            label="State"
+            label="Obalast"
             type="text"
             fullWidth
             value={editedCompany.address?.state || ''}
@@ -137,7 +136,7 @@ const EditCompanyModal: React.FC<EditCompanyModalProps> = ({ open, onClose, comp
           <TextField
             margin="dense"
             name="zipCode"
-            label="Zip Code"
+            label="Zip kod"
             type="text"
             fullWidth
             value={editedCompany.address?.zipCode || ''}
@@ -149,7 +148,7 @@ const EditCompanyModal: React.FC<EditCompanyModalProps> = ({ open, onClose, comp
           <TextField
             margin="dense"
             name="country"
-            label="Country"
+            label="Drzava"
             type="text"
             fullWidth
             value={editedCompany.address?.country || ''}
@@ -163,7 +162,7 @@ const EditCompanyModal: React.FC<EditCompanyModalProps> = ({ open, onClose, comp
           <TextField
             margin="dense"
             name="accountNumber"
-            label="Account Number"
+            label="Broj racuna"
             type="text"
             fullWidth
             value={editedCompany.bankDetails?.accountNumber || ''}
@@ -175,7 +174,7 @@ const EditCompanyModal: React.FC<EditCompanyModalProps> = ({ open, onClose, comp
           <TextField
             margin="dense"
             name="bankName"
-            label="Bank Name"
+            label="Ime banke"
             type="text"
             fullWidth
             value={editedCompany.bankDetails?.bankName || ''}
@@ -212,7 +211,7 @@ const EditCompanyModal: React.FC<EditCompanyModalProps> = ({ open, onClose, comp
         <TextField
           margin="dense"
           name="description"
-          label="Description"
+          label="Opis musterije"
           type="text"
           fullWidth
           value={editedCompany.description || ''}
