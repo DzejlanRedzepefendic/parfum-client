@@ -27,7 +27,11 @@ const EditCompanyModal: React.FC<EditCompanyModalProps> = ({ open, onClose, comp
     description: company.description,
   });
 
-  useEffect(() => {
+    console.log(company);
+
+
+
+    useEffect(() => {
     setEditedCompany({
       name: company.name,
       pib: company.pib,

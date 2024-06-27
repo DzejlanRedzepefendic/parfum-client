@@ -5,4 +5,5 @@ export const QUERY_KEYS = {
     GET_ME: 'getMe',
     GET_ALL_COMPANY: 'getAllCompany',
     GET_COMPANY_DETAILS: 'getCompanyDetails',
+    GET_NOTIFICATIONS: 'getNotifications',
 };

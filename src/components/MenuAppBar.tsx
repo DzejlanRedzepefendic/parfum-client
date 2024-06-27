@@ -13,6 +13,7 @@ import {  Assignment, NotificationAddOutlined } from '@mui/icons-material';
 import { Badge } from '@mui/material';
 import { useGetAllAuditQuery } from '../api/queries/audit/useGetAllAuditQuery';
 import { getTitleFromPathname } from '../utils/locationBuilder';
+import {useGetParfumNotification} from "../api/queries/refill/useGetParfumNotification.ts";
 
 export default function MenuAppBar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -21,6 +22,9 @@ export default function MenuAppBar() {
   const navigate = useNavigate();
 
   const {data} = useGetAllAuditQuery();
+  const {data:dataOfNotification} = useGetParfumNotification({days:7, page:1, limit:999})
+
+  console.log(dataOfNotification)
 
 
 
@@ -32,7 +36,6 @@ export default function MenuAppBar() {
     setAnchorEl(null);
   };
 
-  const isHaveNotification = true;
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -43,8 +46,8 @@ export default function MenuAppBar() {
           </Typography>
           <div>
           <IconButton>
-            <Badge badgeContent={12} color="error">
-          <NotificationAddOutlined color={isHaveNotification ? 'warning' :'inherit'} />
+            <Badge badgeContent={dataOfNotification?.length} color="error">
+          <NotificationAddOutlined color={dataOfNotification?.length ? 'warning' :'inherit'} />
             </Badge>
           </IconButton>
           </div>

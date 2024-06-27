@@ -1,4 +1,5 @@
 import { Pagination } from "./global.interface";
+import {Article} from "./article.interface.ts";
 
 interface Address {
     street?: string;
@@ -22,12 +23,13 @@ interface BankDetails {
 
 export interface CreateCompanyRequestData {
     name: string;
-    pib?: string;
     deviceNumber?: number;
+    pib?: string;
     address?: Address;
     contact?: Contact;
     bankDetails?: BankDetails;
     description?: string;
+    articleIds?: string[];
 }
 
 export interface Company {
@@ -38,6 +40,7 @@ export interface Company {
     contact: Contact;
     bankDetails: BankDetails;
     description?: string;
+    articleIds: Article[];
 
 }
 

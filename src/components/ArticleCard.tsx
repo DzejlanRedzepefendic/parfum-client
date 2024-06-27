@@ -124,7 +124,7 @@ const ArticleCard: React.FC<Article> = ({ name, price, description, quantity, no
             <Box>
               <Typography variant="h6">Note</Typography>
               <Stack direction="row" spacing={1} flexWrap="wrap" gap={1} justifyContent={'start'}>
-                {notes.map((note, index) => (
+                {notes?.map((note, index) => (
                     <Chip key={index} label={note} sx={{ marginBottom: 1 }} />
                 ))}
               </Stack>

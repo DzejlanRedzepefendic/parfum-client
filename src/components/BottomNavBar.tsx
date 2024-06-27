@@ -22,7 +22,7 @@ const BottomNavBar: React.FC = () => {
       case '/team':
         setValue(2);
         break;
-      case 'company':
+      case '/company':
         setValue(3);
         break;
       default:

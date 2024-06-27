@@ -118,7 +118,7 @@ const EditArticleModal: React.FC<EditArticleModalProps> = ({ article, open, onCl
           />
         </Box>
         <Box mt={2} display={'flex'} flexDirection={'column'} alignItems={'end'}>
-          {formValues.notes.map((note, index) => (
+          {formValues?.notes?.map((note, index) => (
             <Button key={index} onClick={() => {
                 setFormValues((prevValues) => ({
                     ...prevValues,
