@@ -1,6 +1,9 @@
 import axios, { AxiosInstance } from 'axios';
 
-const URL = 'http://localhost:8222/api';
+
+const isDevelopment = false;
+
+const URL = isDevelopment ? 'http://localhost:8222/api' : 'https://test-app-7vbq.onrender.com/api';
 
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: URL,

@@ -1,6 +1,11 @@
 import axiosInstance from "../config";
 import { QueryParams } from "../../interfaces/global.interface";
-import { Company, CompanyResponseData, CreateCompanyRequestData } from "../../interfaces/company.interface";
+import {
+    Company,
+    CompanyResponseData,
+    CreateCompanyRequestData,
+    RemoveArticleFromCompanyRequestData
+} from "../../interfaces/company.interface";
 import { buildQueryParams } from "../../utils/queryBuilder";
 export const createCompany = async (data: CreateCompanyRequestData) => {
     const res = await axiosInstance.post('/companies', data);
@@ -26,5 +31,10 @@ export const updateCompany = async (id:string, data:CreateCompanyRequestData) =>
 
 export const deleteCompany = async (id:string) => {
     const res = await axiosInstance.delete(`/companies/${id}`);
+    return res.data;
+}
+
+export const removeArticleFromCompany = async (data:RemoveArticleFromCompanyRequestData) =>{
+    const res = await axiosInstance.put(`/companies/${data.companyId}/article/${data.articleId}`, {"amount":data.amount});
     return res.data;
 }

@@ -32,6 +32,11 @@ export interface CreateCompanyRequestData {
     articleIds?: string[];
 }
 
+export interface  RemoveArticleFromCompanyRequestData {
+    companyId: string;
+    articleId: string;
+    amount?: number;
+}
 export interface Company {
     _id: string;
     name: string;

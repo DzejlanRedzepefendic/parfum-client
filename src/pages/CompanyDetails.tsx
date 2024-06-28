@@ -8,6 +8,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import RemoveIcon from '@mui/icons-material/Remove';
 import { useGetCompanyDetailsQuery } from '../api/queries/company/useGetCompanyDetailsQuery';
 import { Company as CompanyType, CreateCompanyRequestData } from '../interfaces/company.interface';
 import EditCompanyModal from '../components/EditCompanyModal';
@@ -16,7 +17,9 @@ import { useDeleteCompanyQuery } from '../api/queries/company/useDeleteCompanyQu
 import DeleteCompanyModal from '../components/DeleteCompanyModal';
 import { useRefillParfums } from '../api/queries/refill/useRefillParfums';
 import AddArticleInCompanyDialog from "../components/AddArticleInCompanyDialog.tsx";
-import {toast} from "react-toastify";
+import RemoveArticleDialog from '../components/RemoveArticleDialog'; // Import your new dialog
+import { toast } from "react-toastify";
+import {useRemoveArticleFromCompany} from "../api/queries/company/useRemoveArticleFromCompany.ts";
 
 const CompanyDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -25,9 +28,12 @@ const CompanyDetails: React.FC = () => {
   const { mutateAsync } = useEditCompanyQuery();
   const { mutateAsync: mutateAsyncDelete } = useDeleteCompanyQuery();
   const refillParfumsMutation = useRefillParfums();
+  const removeArticleMutation = useRemoveArticleFromCompany(); // Use the remove article hook
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isAddArticleDialogOpen, setIsAddArticleDialogOpen] = useState(false);
+  const [isRemoveDialogOpen, setIsRemoveDialogOpen] = useState(false);
+  const [articleToRemove, setArticleToRemove] = useState<{ id: string, name: string } | null>(null);
   const [refillData, setRefillData] = useState<{ articleId: string, quantity: number }[]>([]);
   const [expiresAt, setExpiresAt] = useState('');
 
@@ -71,6 +77,18 @@ const CompanyDetails: React.FC = () => {
     await refillParfumsMutation.mutateAsync(refillRequest);
     setRefillData([]); // Resetovanje inputa za dopunu
     setExpiresAt(''); // Resetovanje datuma isteka
+  };
+
+  const handleRemoveClick = (articleId: string, articleName: string) => {
+    setArticleToRemove({ id: articleId, name: articleName });
+    setIsRemoveDialogOpen(true);
+  };
+
+  const handleConfirmRemove = async (amount: number) => {
+    if (!articleToRemove) return;
+    await removeArticleMutation.mutateAsync({ companyId: company._id, articleId: articleToRemove.id, amount });
+    setIsRemoveDialogOpen(false);
+    setArticleToRemove(null);
   };
 
   if (isLoading) {
@@ -131,7 +149,16 @@ const CompanyDetails: React.FC = () => {
         <Box width="100%" maxWidth={400} mb={2}>
           {company.articleIds?.map((article) => (
               <Card key={typeof article === 'string' ? article : article._id} sx={{ mb: 2 }}>
-                <CardHeader title={typeof article === 'string' ? article : article.name} />
+                <CardHeader
+                    title={typeof article === 'string' ? article : article.name}
+                    action={
+                        typeof article !== 'string' && (
+                            <IconButton onClick={() => handleRemoveClick(article._id, article.name)}>
+                              <RemoveIcon color='error' />
+                            </IconButton>
+                        )
+                    }
+                />
                 <CardContent>
                   {typeof article !== 'string' && (
                       <>
@@ -209,6 +236,14 @@ const CompanyDetails: React.FC = () => {
             onClose={handleCloseDeleteDialog}
             onConfirm={handleConfirmDelete}
         />
+        {articleToRemove && (
+            <RemoveArticleDialog
+                open={isRemoveDialogOpen}
+                onClose={() => setIsRemoveDialogOpen(false)}
+                onConfirm={handleConfirmRemove}
+                articleName={articleToRemove.name}
+            />
+        )}
       </Box>
   );
 };

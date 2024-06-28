@@ -22,9 +22,8 @@ export default function MenuAppBar() {
   const navigate = useNavigate();
 
   const {data} = useGetAllAuditQuery();
-  const {data:dataOfNotification} = useGetParfumNotification({days:7, page:1, limit:999})
+  const {data:dataOfNotification} = useGetParfumNotification({days:99999, page:1, limit:999})
 
-  console.log(dataOfNotification)
 
 
 
@@ -45,9 +44,11 @@ export default function MenuAppBar() {
             {getTitleFromPathname(location.pathname)}
           </Typography>
           <div>
-          <IconButton>
-            <Badge badgeContent={dataOfNotification?.length} color="error">
-          <NotificationAddOutlined color={dataOfNotification?.length ? 'warning' :'inherit'} />
+          <IconButton onClick={()=>{
+            navigate('/')
+          }}>
+            <Badge badgeContent={dataOfNotification?.data?.length} color="error">
+          <NotificationAddOutlined color={dataOfNotification?.data?.length ? 'warning' :'inherit'} />
             </Badge>
           </IconButton>
           </div>
