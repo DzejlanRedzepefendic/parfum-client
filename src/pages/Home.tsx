@@ -7,7 +7,7 @@ import { NotificationData } from '../api/request/refill';
 
 export const Home: React.FC = () => {
     const [days, setDays] = useState(7);
-    const [showRead, setShowRead] = useState(false);
+    const [showRead, setShowRead] = useState(true);
 
     const { data } = useGetParfumNotification({
         days,
