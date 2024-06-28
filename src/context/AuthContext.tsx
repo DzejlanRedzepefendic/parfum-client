@@ -1,5 +1,5 @@
 // AuthContext.tsx
-import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import React, { createContext, useContext, useState, ReactNode, } from 'react';
 import { LoginData, LoginResponse } from '../interfaces/auth.interface';
 import { useLoginQuery } from '../api/queries/auth/useLoginQuery';
 import { useGetMeQuery } from '../api/queries/user/useGetMeQuery';

@@ -1,4 +1,4 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+import  { Component, ErrorInfo, ReactNode } from 'react';
 import { Button } from '@mui/material';
 
 interface Props {
@@ -15,7 +15,7 @@ class ErrorBoundary extends Component<Props, State> {
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError(error: Error): State {
+  static getDerivedStateFromError(): State {
     return { hasError: true };
   }
 
