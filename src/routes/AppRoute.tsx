@@ -12,6 +12,7 @@ import { Team } from '../pages/Team';
 import { Logs } from '../pages/Logs';
 import { Company } from '../pages/Company';
 import CompanyDetails from '../pages/CompanyDetails';
+import Profile from "../pages/Profile.tsx";
 
 const AppRoute: React.FC = () => {
 
@@ -77,6 +78,11 @@ const AppRoute: React.FC = () => {
           <ProtectedRoute>
             <CompanyDetails/>
           </ProtectedRoute>
+        } />
+        <Route path="/profile" element={
+            <ProtectedRoute>
+              <Profile/>
+            </ProtectedRoute>
         } />
         <Route path="/" element={isLoggedIn ? <Navigate to="/home" /> : <Navigate to="/login" />} />
         <Route path="*" element={<Navigate to="/" />} />

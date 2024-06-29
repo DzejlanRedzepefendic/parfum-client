@@ -2,6 +2,15 @@
   export interface GetMeResponse {
     username: string;
     role: number;
+    notifications: {
+      notificationIntervalDays: number[];
+      phoneNumbers: string[];
+      subscription: boolean;
+    }
+    notificationTime:{
+      hours: number;
+      meridiem: string;
+    }
   }
  
 

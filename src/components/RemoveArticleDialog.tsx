@@ -31,7 +31,7 @@ const RemoveArticleDialog: React.FC<RemoveArticleDialogProps> = ({ open, onClose
                     label="Količina za vraćanje u magacin"
                     type="number"
                     fullWidth
-                    value={amount}
+                    value={amount || ''}
                     onChange={(e) => setAmount(Number(e.target.value))}
                 />
             </DialogContent>

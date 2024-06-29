@@ -3,11 +3,13 @@ import React, { createContext, useContext, useState, ReactNode, } from 'react';
 import { LoginData, LoginResponse } from '../interfaces/auth.interface';
 import { useLoginQuery } from '../api/queries/auth/useLoginQuery';
 import { useGetMeQuery } from '../api/queries/user/useGetMeQuery';
+import {GetMeResponse} from "../interfaces/user.interface.ts";
 
 interface AuthContextType {
   isLoggedIn: boolean | null;
   login: (loginData: LoginData) => Promise<LoginResponse>;
   logout: () => void;
+  user:GetMeResponse | undefined;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -15,8 +17,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { mutateAsync } = useLoginQuery();
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
-
-    useGetMeQuery({setIsLoggedIn});
+  const user = useGetMeQuery({setIsLoggedIn}).data;
 
    
 
@@ -35,7 +36,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, login, logout,user }}>
       {children}
     </AuthContext.Provider>
   );

@@ -48,7 +48,7 @@ export const Home: React.FC = () => {
                     placeholder="Broj dana za pretragu..."
                     variant="outlined"
                     type="number"
-                    value={days}
+                    value={days || ''}
                     onChange={handleDaysChange}
                     InputProps={{
                         startAdornment: (

@@ -89,6 +89,7 @@ export default function MenuAppBar() {
             >
               {/*<MenuItem onClick={handleClose}>Tim</MenuItem>*/}
               {/*<MenuItem onClick={handleClose}>Moj Profil</MenuItem>*/}
+              <MenuItem onClick={()=>{  navigate('/profile')}}>Moj Profil</MenuItem>
               <MenuItem onClick={logout}>Odjavi se</MenuItem>
             </Menu>
           </div>
