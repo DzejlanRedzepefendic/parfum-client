@@ -81,7 +81,7 @@ const AppRoute: React.FC = () => {
         } />
         <Route path="/profile" element={
             <ProtectedRoute>
-              <Profile/>
+              <Profile />
             </ProtectedRoute>
         } />
         <Route path="/" element={isLoggedIn ? <Navigate to="/home" /> : <Navigate to="/login" />} />

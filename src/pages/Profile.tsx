@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import { Box, Typography, TextField, Switch, Button, CircularProgress, IconButton, MenuItem, Select, FormControl, InputLabel } from '@mui/material';
 import { Add as AddIcon } from '@mui/icons-material';
 import { toast } from 'react-toastify';
-import { GetMeResponse } from "../interfaces/user.interface.ts";
+import {useAuth} from "../context/AuthContext.tsx";
 
-interface UserProfileProps {
-    user: GetMeResponse;
-}
 
-const Profile: React.FC<UserProfileProps> = ({ user }) => {
+
+const Profile: React.FC = () => {
+    const user = useAuth().user;
     const [phoneNumbers, setPhoneNumbers] = useState<string[]>(user?.notifications?.phoneNumbers || []);
     const [newPhoneNumber, setNewPhoneNumber] = useState<string>('');
     const [notificationIntervalDays, setNotificationIntervalDays] = useState<number[]>(user?.notifications?.notificationIntervalDays || []);
@@ -38,7 +37,7 @@ const Profile: React.FC<UserProfileProps> = ({ user }) => {
             const updatedUserData = {
                 ...user,
                 notifications: {
-                    ...user.notifications,
+                    ...user?.notifications,
                     phoneNumbers,
                     notificationIntervalDays,
                     subscription,
