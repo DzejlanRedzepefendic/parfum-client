@@ -5,100 +5,101 @@ import { PersonPinCircleOutlined } from '@mui/icons-material';
 import { format } from 'date-fns';
 import { useMarkAuditQuery } from '../api/queries/audit/useMarkAuditQuery';
 
+const translateAction = (action: string): string => {
+    const actionTranslations: { [key: string]: string } = {
+        "article_updated": "Ažuriran artikal",
+        "company_created": "Kreirana kompanija",
+        "refill_created": "Kreirano punjenje",
+        "article_created": "Kreiran artikal",
+        "company_updated": "Ažurirana kompanija",
+        "article_deleted": "Obrisan artikal",
+        "user_created": "Kreiran korisnik",
+        "user_updated": "Ažuriran korisnik",
+    };
+
+    return actionTranslations[action] || action;
+};
+
 export const Logs: React.FC = () => {
-  const [sortBy, setSortBy] = useState('seen');
-  const [order, setOrder] = useState('ASC');
-  const { data } = useGetAllAuditQuery({order,sortBy});
-  const { mutateAsync } = useMarkAuditQuery();
+    const [sortBy, setSortBy] = useState('createdAt');
+    const [order, setOrder] = useState('DESC');
+    const { data } = useGetAllAuditQuery({ order, sortBy });
+    const { mutateAsync } = useMarkAuditQuery();
 
-  const handleSortChange = (field: string, direction: string) => {
-    setSortBy(field);
-    setOrder(direction);
-  };
+    const handleSortChange = (field: string, direction: string) => {
+        setSortBy(field);
+        setOrder(direction);
+    };
 
-  return (
-    <Box p={2} sx={{ paddingBottom: '50px' }}>
-      <Typography variant="h5" gutterBottom align="center">
-        Logovi
-      </Typography>
-      <FormControl fullWidth sx={{ marginBottom: 2 }}>
-  <InputLabel id="sort-select-label">
-    Sortiraj po
-  </InputLabel>
-  <Select
-    labelId="sort-select-label"
-    value={`${sortBy}-${order}`}
-    onChange={(event) => {
-      const [field, direction] = event.target.value.split('-');
-      handleSortChange(field, direction);
-    }}
-    label="Sortiraj po"
-  >
-    <MenuItem value="createdAt-ASC">
-        Kreirano rastuce
-    </MenuItem>
-    <MenuItem value="createdAt-DESC">
-        Kreirano opadajuce
-    </MenuItem>
-    <MenuItem value="seen-ASC">
-        Pregledano rastuce
-    </MenuItem>
-    <MenuItem value="seen-DESC">
-        Pregledano opadajuce
-    </MenuItem>
-  </Select>
-</FormControl>
-      <List>
-        {data?.data?.map((log, index: number) => (
-          <Paper
-            onClick={async () => {if(!log.seen){ await mutateAsync(log._id); }}}
-            key={index}
-            elevation={3}
-            sx={{
-              marginBottom: 2,
-              padding: 2,
-              backgroundColor: log.seen ? '#f0f0f0' : '#e0ffe0',
-              cursor: 'pointer'
-            }}
-          >
-            <ListItem alignItems="flex-start">
-              <Avatar sx={{ marginRight: 2 }}>
-                <PersonPinCircleOutlined />
-              </Avatar>
-              <Box sx={{ width: '100%' }}>
-                <Stack direction="row" justifyContent="space-between" sx={{ marginBottom: 1 }}>
-                  <Typography variant="body2" color="text.secondary">Action:</Typography>
-                  <Typography variant="body2" color="text.primary">{log?.action}</Typography>
-                </Stack>
-                <Stack direction="row" justifyContent="space-between" sx={{ marginBottom: 1 }}>
-                  <Typography variant="body2" color="text.secondary">Executed By:</Typography>
-                  <Typography variant="body2" color="text.primary">{log?.executedByDetails?.username}</Typography>
-                </Stack>
-                <Stack direction="row" justifyContent="space-between" sx={{ marginBottom: 1 }}>
-                  <Typography variant="body2" color="text.secondary">Date:</Typography>
-                  <Typography variant="body2" color="text.primary">
-                    {format(new Date(log?.createdAt), 'dd/MM/yyyy HH:mm:ss')}
-                  </Typography>
-                </Stack>
-                <Stack direction="row" justifyContent="space-between" sx={{ marginBottom: 1 }}>
-                  <Typography variant="body2" color="text.secondary">Username:</Typography>
-                  <Typography variant="body2" color="text.primary">{log?.changes?.currentState?.username}</Typography>
-                </Stack>
-                <Stack direction="row" justifyContent="space-between" sx={{ marginBottom: 1 }}>
-                  <Typography variant="body2" color="text.secondary">Role:</Typography>
-                  <Typography variant="body2" color="text.primary">{log?.changes.currentState?.role}</Typography>
-                </Stack>
-                <Stack direction="row" justifyContent="space-between">
-                  <Typography variant="body2" color="text.secondary">ID:</Typography>
-                  <Typography variant="body2" color="text.primary">{log?.changes?.currentState?._id}</Typography>
-                </Stack>
-              </Box>
-            </ListItem>
-          </Paper>
-        ))}
-      </List>
-    </Box>
-  );
+    return (
+        <Box p={2} sx={{ paddingBottom: '50px' }}>
+            <Typography variant="h5" gutterBottom align="center">
+                Logovi
+            </Typography>
+            <FormControl fullWidth sx={{ marginBottom: 2 }}>
+                <InputLabel id="sort-select-label">Sortiraj po</InputLabel>
+                <Select
+                    labelId="sort-select-label"
+                    value={`${sortBy}-${order}`}
+                    onChange={(event) => {
+                        const [field, direction] = event.target.value.split('-');
+                        handleSortChange(field, direction);
+                    }}
+                    label="Sortiraj po"
+                >
+                    <MenuItem value="createdAt-ASC">Kreirano rastuće</MenuItem>
+                    <MenuItem value="createdAt-DESC">Kreirano opadajuće</MenuItem>
+                    <MenuItem value="seen-ASC">Pregledano rastuće</MenuItem>
+                    <MenuItem value="seen-DESC">Pregledano opadajuće</MenuItem>
+                </Select>
+            </FormControl>
+            <List>
+                {data?.data?.map((log, index: number) => (
+                    <Paper
+                        onClick={async () => {if(!log.seen){ await mutateAsync(log._id); }}}
+                        key={index}
+                        elevation={3}
+                        sx={{
+                            marginBottom: 2,
+                            padding: 2,
+                            backgroundColor: log.seen ? '#f0f0f0' : '#e0ffe0',
+                            cursor: 'pointer'
+                        }}
+                    >
+                        <ListItem alignItems="flex-start">
+                            <Avatar sx={{ marginRight: 2 }}>
+                                <PersonPinCircleOutlined />
+                            </Avatar>
+                            <Box sx={{ width: '100%' }}>
+                                <Stack direction="row" justifyContent="space-between" sx={{ marginBottom: 1 }}>
+                                    <Typography variant="body2" color="text.secondary">Akcija:</Typography>
+                                    <Typography variant="body2" color="text.primary">{translateAction(log?.action)}</Typography>
+                                </Stack>
+                                <Stack direction="row" justifyContent="space-between" sx={{ marginBottom: 1 }}>
+                                    <Typography variant="body2" color="text.secondary">Izvršio:</Typography>
+                                    <Typography variant="body2" color="text.primary">{log?.executedByDetails?.username}</Typography>
+                                </Stack>
+                                <Stack direction="row" justifyContent="space-between" sx={{ marginBottom: 1 }}>
+                                    <Typography variant="body2" color="text.secondary">Datum:</Typography>
+                                    <Typography variant="body2" color="text.primary">
+                                        {format(new Date(log?.createdAt), 'dd/MM/yyyy HH:mm:ss')}
+                                    </Typography>
+                                </Stack>
+                                <Stack direction="row" justifyContent="space-between" sx={{ marginBottom: 1 }}>
+                                    <Typography variant="body2" color="text.secondary">Korisničko ime:</Typography>
+                                    <Typography variant="body2" color="text.primary">{log?.executedByDetails?.username}</Typography>
+                                </Stack>
+                                <Stack direction="row" justifyContent="space-between">
+                                    <Typography variant="body2" color="text.secondary">ID:</Typography>
+                                    <Typography variant="body2" color="text.primary">{log?.changes?.currentState?._id}</Typography>
+                                </Stack>
+                            </Box>
+                        </ListItem>
+                    </Paper>
+                ))}
+            </List>
+        </Box>
+    );
 };
 
 export default Logs;

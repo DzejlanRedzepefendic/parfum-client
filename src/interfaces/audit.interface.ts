@@ -3,25 +3,62 @@ export interface ExecutedByDetails {
   role: number;
 }
 
-export interface PreviousState {
-  username: string;
-  password: string;
-  role: number;
+export interface DecimalValue {
+  $numberDecimal: string;
+}
+
+export interface ArticleState {
   _id: string;
+  name: string;
+  price: DecimalValue;
+  description: string;
+  quantity: DecimalValue;
+  createdAt: string;
+  updatedAt: string;
   __v: number;
 }
 
-export interface CurrentState {
+export interface CompanyState {
+  _id: string;
+  name: string;
+  articleIds: string[];
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface RefillState {
+  companyId: string;
+  expiresAt: string;
+  filledAt: string;
+  description: string;
+  articles: { articleId: string; quantity: number }[];
+  filledBy: string;
+  notificationReadBy: string[];
+  _id: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface UserState {
   username: string;
   password: string;
   role: number;
+  notifications: {
+    notificationIntervalDays: number[];
+    phoneNumbers: string[];
+    subscribed: boolean;
+  };
   _id: string;
+  createdAt: string;
+  updatedAt: string;
   __v: number;
 }
 
 export interface Change {
-  previousState?: PreviousState; // previousState je opcionalan jer nije prisutan u svim zapisima
-  currentState: CurrentState;
+  previousState?: ArticleState | CompanyState | RefillState | UserState;
+  currentState: ArticleState | CompanyState | RefillState | UserState;
   executedBy: string;
 }
 
@@ -35,7 +72,15 @@ export interface LogEntry {
   createdAt: string;
 }
 
+export interface Pagination {
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  limit: number;
+}
+
 export interface AuditLogs {
   data: LogEntry[];
+  pagination: Pagination;
   totalNotSeenCount: number;
 }

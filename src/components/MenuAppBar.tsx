@@ -22,8 +22,7 @@ export default function MenuAppBar() {
   const navigate = useNavigate();
 
   const {data} = useGetAllAuditQuery();
-  const {data:dataOfNotification} = useGetParfumNotification({days:99999, page:1, limit:999})
-
+  const {data:dataOfNotification} = useGetParfumNotification({days:15, page:1, limit:999})
 
 
 

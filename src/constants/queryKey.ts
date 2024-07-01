@@ -6,4 +6,5 @@ export const QUERY_KEYS = {
     GET_ALL_COMPANY: 'getAllCompany',
     GET_COMPANY_DETAILS: 'getCompanyDetails',
     GET_NOTIFICATIONS: 'getNotifications',
+    GET_REFILL_BY_COMPANY_ID: 'getRefillByCompanyId',
 };

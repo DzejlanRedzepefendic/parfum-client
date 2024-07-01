@@ -26,7 +26,7 @@ const BottomNavBar: React.FC = () => {
         setValue(3);
         break;
       default:
-        setValue(0);
+        setValue(12);
     }
   }, [location.pathname]);
 

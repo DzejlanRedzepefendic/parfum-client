@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, TextField, InputAdornment, Typography, Button, Grid, Switch, FormControlLabel } from '@mui/material';
+import { Box, TextField, InputAdornment, Typography, Button, Grid } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { useGetParfumNotification } from '../api/queries/refill/useGetParfumNotification';
 import NotificationCard from '../components/NotificationCard';
@@ -7,13 +7,11 @@ import { NotificationData } from '../api/request/refill';
 
 export const Home: React.FC = () => {
     const [days, setDays] = useState(7);
-    const [showRead, setShowRead] = useState(true);
 
     const { data } = useGetParfumNotification({
         days,
         page: 1,
         limit: 9999,
-        read: showRead ? undefined : false,
     });
 
     const handleDaysChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,9 +22,7 @@ export const Home: React.FC = () => {
         setDays(selectedDays);
     };
 
-    const handleToggleRead = () => {
-        setShowRead((prev) => !prev);
-    };
+
 
     return (
         <Box p={2} paddingBottom={'50px'}>
@@ -57,12 +53,6 @@ export const Home: React.FC = () => {
                             </InputAdornment>
                         ),
                     }}
-                />
-            </Box>
-            <Box mb={2}>
-                <FormControlLabel
-                    control={<Switch checked={showRead} onChange={handleToggleRead} />}
-                    label="Prikaži nepročitane notifikacije"
                 />
             </Box>
             {data?.data?.map((notification: NotificationData, index: number) => (

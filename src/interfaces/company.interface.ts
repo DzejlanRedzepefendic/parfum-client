@@ -1,5 +1,4 @@
 import { Pagination } from "./global.interface";
-import {Article} from "./article.interface.ts";
 
 interface Address {
     street?: string;
@@ -21,6 +20,47 @@ interface BankDetails {
     swift?: string;
 }
 
+interface Article {
+    _id: string;
+    name: string;
+    price: {
+        $numberDecimal: string;
+    };
+    description: string;
+    quantity: {
+        $numberDecimal: string;
+    };
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+}
+
+interface RefillArticle {
+    articleId: string;
+    quantity: number;
+}
+
+interface RemainingTime {
+    days: number;
+    hours: number;
+}
+
+interface LatestRefill {
+    _id: string;
+    companyId: string;
+    expiresAt: string;
+    filledAt: string;
+    description: string;
+    articles: RefillArticle[];
+    filledBy: string;
+    notificationReadBy: string[];
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+    remainingTime: RemainingTime;
+    formattedRemainingTime: string;
+}
+
 export interface CreateCompanyRequestData {
     name: string;
     deviceNumber?: number;
@@ -32,11 +72,12 @@ export interface CreateCompanyRequestData {
     articleIds?: string[];
 }
 
-export interface  RemoveArticleFromCompanyRequestData {
+export interface RemoveArticleFromCompanyRequestData {
     companyId: string;
     articleId: string;
     amount?: number;
 }
+
 export interface Company {
     _id: string;
     name: string;
@@ -45,11 +86,12 @@ export interface Company {
     contact: Contact;
     bankDetails: BankDetails;
     description?: string;
-    articleIds: Article[];
-
+    articleIds: string[];
+    articles: Article[];
+    latestRefill: LatestRefill;
 }
 
 export interface CompanyResponseData {
     data: Company[];
-    pagination:Pagination;
+    pagination: Pagination;
 }

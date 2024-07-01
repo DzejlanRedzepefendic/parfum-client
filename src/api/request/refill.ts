@@ -2,6 +2,33 @@ import axiosInstance from "../config.ts";
 import {Pagination} from "../../interfaces/global.interface.ts";
 
 
+interface Article {
+  articleId: string;
+  quantity: number;
+}
+
+interface Notification {
+  _id: string;
+  companyId: string;
+  expiresAt: string;
+  filledAt?: string; // This field is optional
+  description?: string; // This field is optional
+  articles: Article[];
+  filledBy: string;
+  notificationReadBy: string[];
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+
+
+interface GetRefillByCompanyIdResponse {
+  data: Notification[];
+  pagination: Pagination;
+}
+
+
 interface DecimalValue {
   $numberDecimal: string;
 }
@@ -62,6 +89,8 @@ export interface RefillParfumeNotificationOptions {
 export interface RefillParfumRequest {
   companyId: string;
   expiresAt: string; // Datum u formatu 'YYYY-MM-DD'
+  filledAt: string; // Datum u formatu 'YYYY-MM-DD'
+  description?: string;
   articles: {
     articleId: string;
     quantity: number;
@@ -96,4 +125,9 @@ export const refillParfumeNotification = async (options: RefillParfumeNotificati
 
   const res = await axiosInstance.get(url);
   return res.data;
+}
+
+
+export const getRefillByCompanyId = async (companyId: string) :Promise<GetRefillByCompanyIdResponse> => {
+  return await axiosInstance.get(`/refills?page=1&limit=9999&companyId=${companyId}&showExpired=false`)
 }
