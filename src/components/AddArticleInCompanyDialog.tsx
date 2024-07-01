@@ -15,7 +15,8 @@ import {
     ListItemIcon
 } from '@mui/material';
 import { Company as CompanyType } from '../interfaces/company.interface';
-import {useGetAllArticlesQuery} from "../api/queries/articl/useGetAllArticlesQuery.ts";
+import { useGetAllArticlesQuery } from "../api/queries/articl/useGetAllArticlesQuery.ts";
+import { Article } from '../interfaces/article.interface'; // Pretpostavljam da imate interfejs Article
 
 interface AddArticleDialogProps {
     open: boolean;
@@ -55,8 +56,8 @@ const AddArticleInCompanyDialog: React.FC<AddArticleDialogProps> = ({ open, onCl
         return <Typography>Ne postoje dostupni parfemi.</Typography>;
     }
 
-    const availableArticles = articles?.data?.filter(article =>
-        !company.articleIds.some(id => typeof id !== 'string' && id._id === article._id) &&
+    const availableArticles = articles?.data?.filter((article: Article) =>
+        !company.articles.some(id => typeof id !== 'string' && id._id === article._id) &&
         article.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
