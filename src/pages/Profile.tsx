@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Box, Typography, TextField, Switch, Button, CircularProgress, IconButton, MenuItem, Select, FormControl, InputLabel } from '@mui/material';
-import { Add as AddIcon } from '@mui/icons-material';
+import { Box, Typography, TextField, Switch, Button, CircularProgress, IconButton, MenuItem, Select, FormControl, InputLabel, List, ListItem, ListItemText, ListItemSecondaryAction } from '@mui/material';
+import { Add as AddIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import { toast } from 'react-toastify';
-import {useAuth} from "../context/AuthContext.tsx";
-
-
+import { useAuth } from "../context/AuthContext.tsx";
+import { useUpdateUser } from "../api/queries/user/useUpdateUser.ts";
 
 const Profile: React.FC = () => {
     const user = useAuth().user;
@@ -12,10 +11,12 @@ const Profile: React.FC = () => {
     const [newPhoneNumber, setNewPhoneNumber] = useState<string>('');
     const [notificationIntervalDays, setNotificationIntervalDays] = useState<number[]>(user?.notifications?.notificationIntervalDays || []);
     const [newNotificationIntervalDay, setNewNotificationIntervalDay] = useState<number>(0);
-    const [subscription, setSubscription] = useState(user?.notifications?.subscription || false);
-    const [hours, setHours] = useState(user?.notificationTime?.hours || 0);
-    const [meridiem, setMeridiem] = useState(user?.notificationTime?.meridiem || 'AM');
+    const [subscribed, setSubscribed] = useState(user?.notifications?.subscribed || false);
+    const [hours, setHours] = useState(user?.notifications?.notificationTime.hours || 0);
+    const [meridiem, setMeridiem] = useState(user?.notifications?.notificationTime.meridiem || 'AM');
     const [updating, setUpdating] = useState(false);
+
+    const { mutateAsync } = useUpdateUser();
 
     const handleAddPhoneNumber = () => {
         if (newPhoneNumber.trim()) {
@@ -31,6 +32,16 @@ const Profile: React.FC = () => {
         }
     };
 
+    const handleRemovePhoneNumber = (index: number) => {
+        const updatedPhoneNumbers = phoneNumbers.filter((_, i) => i !== index);
+        setPhoneNumbers(updatedPhoneNumbers);
+    };
+
+    const handleRemoveNotificationIntervalDay = (index: number) => {
+        const updatedNotificationIntervalDays = notificationIntervalDays.filter((_, i) => i !== index);
+        setNotificationIntervalDays(updatedNotificationIntervalDays);
+    };
+
     const handleSave = async () => {
         try {
             setUpdating(true);
@@ -40,16 +51,14 @@ const Profile: React.FC = () => {
                     ...user?.notifications,
                     phoneNumbers,
                     notificationIntervalDays,
-                    subscription,
-                },
-                notificationTime: {
-                    hours: Number(hours),
-                    meridiem,
+                    subscribed,
+                    notificationTime: {
+                        hours: Number(hours),
+                        meridiem,
+                    }
                 }
             };
-            console.log(updatedUserData)
-            // Replace useUpdateUserProfileMutation with your actual update mutation hook
-            // await useUpdateUserProfileMutation(updatedUserData);
+            await mutateAsync({ ...updatedUserData, _id: user!.id });
             toast.success('Profil je uspešno ažuriran.');
         } catch (error) {
             toast.error('Došlo je do greške prilikom ažuriranja profila.');
@@ -59,12 +68,22 @@ const Profile: React.FC = () => {
     };
 
     return (
-        <Box p={2} display="flex" flexDirection="column" alignItems="center">
+        <Box p={2} display="flex" flexDirection="column" alignItems="center" paddingBottom={10}>
             <Typography variant="h4" gutterBottom>Korisnički profil</Typography>
             <Box width="100%" maxWidth={400} mb={2}>
-                {phoneNumbers.map((phoneNumber, index) => (
-                    <Typography key={index}>{phoneNumber}</Typography>
-                ))}
+                <Typography variant="h6" gutterBottom>Brojevi telefona</Typography>
+                <List>
+                    {phoneNumbers.map((phoneNumber, index) => (
+                        <ListItem key={index}>
+                            <ListItemText primary={phoneNumber} />
+                            <ListItemSecondaryAction>
+                                <IconButton edge="end" aria-label="delete" onClick={() => handleRemovePhoneNumber(index)}>
+                                    <DeleteIcon />
+                                </IconButton>
+                            </ListItemSecondaryAction>
+                        </ListItem>
+                    ))}
+                </List>
                 <Box display="flex" alignItems="center" mb={2}>
                     <TextField
                         label="Novi broj telefona"
@@ -76,9 +95,20 @@ const Profile: React.FC = () => {
                         <AddIcon />
                     </IconButton>
                 </Box>
-                {notificationIntervalDays.map((day, index) => (
-                    <Typography key={index}>{day} dana</Typography>
-                ))}
+
+                <Typography variant="h6" gutterBottom>Intervali obaveštenja</Typography>
+                <List>
+                    {notificationIntervalDays.map((day, index) => (
+                        <ListItem key={index}>
+                            <ListItemText primary={`${day} dana`} />
+                            <ListItemSecondaryAction>
+                                <IconButton edge="end" aria-label="delete" onClick={() => handleRemoveNotificationIntervalDay(index)}>
+                                    <DeleteIcon />
+                                </IconButton>
+                            </ListItemSecondaryAction>
+                        </ListItem>
+                    ))}
+                </List>
                 <Box display="flex" alignItems="center" mb={2}>
                     <TextField
                         label="Novi interval obaveštenja (dani)"
@@ -91,35 +121,42 @@ const Profile: React.FC = () => {
                         <AddIcon />
                     </IconButton>
                 </Box>
+
                 <Box display="flex" alignItems="center" mb={2}>
                     <Typography variant="body1" sx={{ mr: 2 }}>Pretplata na notifikacije</Typography>
                     <Switch
-                        checked={subscription}
-                        onChange={(e) => setSubscription(e.target.checked)}
+                        checked={subscribed}
+                        onChange={(e) => setSubscribed(e.target.checked)}
                         inputProps={{ 'aria-label': 'checkbox with default color' }}
                     />
                 </Box>
-                <FormControl fullWidth sx={{ mb: 2 }}>
-                    <InputLabel>Sati obaveštenja</InputLabel>
-                    <Select
-                        value={hours}
-                        onChange={(e) => setHours(Number(e.target.value))}
-                    >
-                        {[...Array(12)].map((_, i) => (
-                            <MenuItem key={i + 1} value={i + 1}>{i + 1}</MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-                <FormControl fullWidth sx={{ mb: 2 }}>
-                    <InputLabel>AM/PM</InputLabel>
-                    <Select
-                        value={meridiem}
-                        onChange={(e) => setMeridiem(e.target.value)}
-                    >
-                        <MenuItem value="AM">AM</MenuItem>
-                        <MenuItem value="PM">PM</MenuItem>
-                    </Select>
-                </FormControl>
+
+                <Box display="flex" justifyContent="space-between" mb={2}>
+                    <FormControl variant="outlined" fullWidth sx={{ mr: 1 }}>
+                        <InputLabel>Sati obaveštenja</InputLabel>
+                        <Select
+                            value={hours}
+                            onChange={(e) => setHours(Number(e.target.value))}
+                            label="Sati obaveštenja"
+                        >
+                            {[...Array(12)].map((_, i) => (
+                                <MenuItem key={i + 1} value={i + 1}>{i + 1}</MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                    <FormControl variant="outlined" fullWidth sx={{ ml: 1 }}>
+                        <InputLabel>AM/PM</InputLabel>
+                        <Select
+                            value={meridiem}
+                            onChange={(e) => setMeridiem(e.target.value)}
+                            label="AM/PM"
+                        >
+                            <MenuItem value="AM">AM</MenuItem>
+                            <MenuItem value="PM">PM</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Box>
+
                 <Button
                     variant="contained"
                     color="primary"

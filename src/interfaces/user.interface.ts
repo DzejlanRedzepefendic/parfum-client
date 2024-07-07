@@ -1,18 +1,20 @@
 
-  export interface GetMeResponse {
-    username: string;
-    role: number;
-    notifications: {
-      notificationIntervalDays: number[];
-      phoneNumbers: string[];
-      subscription: boolean;
-    }
-    notificationTime:{
+export interface GetMeResponse {
+  username: string;
+  role: number;
+  id: string;
+  notifications: {
+    notificationIntervalDays: number[];
+    phoneNumbers: string[];
+    subscribed: boolean;
+    notificationTime: {
       hours: number;
       meridiem: string;
     }
   }
- 
+}
+
+
 
   export interface PullUser {
     username: string;
@@ -22,7 +24,16 @@
   }
 
   export interface UpdatedUserData {
-    username: string;
-    password: string;
-    _id:string
+    username?: string;
+    password?: string;
+    _id: string;
+    notifications?: {
+      notificationIntervalDays?: number[];
+      phoneNumbers?: string[];
+      subscribed?: boolean;
+    };
+    notificationTime?: {
+      hours?: number;
+      meridiem?: string;
+    };
   }
