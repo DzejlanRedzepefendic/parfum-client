@@ -1,12 +1,12 @@
 import axios, { AxiosInstance } from 'axios';
 
 
-const isDevelopment = true;
+// const isDevelopment = true;
 
-const URL = isDevelopment ? 'http://localhost:8222/api' : 'https://test-app-7vbq.onrender.com/api';
+// const URL = isDevelopment ? 'http://localhost:8222/api' : 'https://test-app-7vbq.onrender.com/api';
 
 const axiosInstance: AxiosInstance = axios.create({
-  baseURL: URL,
+  baseURL: "https://parfemi-app-production.up.railway.app/api",
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
