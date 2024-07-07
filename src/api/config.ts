@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 
 
-const isDevelopment = false;
+const isDevelopment = true;
 
 const URL = isDevelopment ? 'http://localhost:8222/api' : 'https://test-app-7vbq.onrender.com/api';
 

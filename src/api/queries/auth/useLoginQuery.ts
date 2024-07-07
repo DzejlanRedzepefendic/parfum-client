@@ -8,6 +8,9 @@ export const useLoginQuery = () => {
         mutationFn: login,
         onSuccess: () => {
             toast('Uspješno ste se prijavili')
+        },
+        onError: () => {
+            toast.error('Neuspješna prijava, pokušajte ponovo.')
         }
     });
 };
