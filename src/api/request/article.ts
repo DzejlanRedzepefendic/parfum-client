@@ -7,7 +7,7 @@ export const createArticle = async (data:CreateArticle) =>{
 }
 
 export const getAllArticles = async (props:SearchParams):Promise<ArticleData> => {
-    const res = await axiosInstance.get(`/articles?name=${props.name}`);
+    const res = await axiosInstance.get(`/articles?name=${props.name}&limit=999`);
     return res.data;
 }
 
