@@ -110,6 +110,10 @@ export const Logs: React.FC = () => {
                                                 <Typography variant="body2" color="text.secondary">ID:</Typography>
                                                 <Typography variant="body2" color="text.primary">{log?.changes?.currentState?._id}</Typography>
                                             </Stack>
+                                            <Stack direction="row" justifyContent="space-between">
+                                                <Typography variant="body2" color="text.secondary">Opis Akcije:</Typography>
+                                                <Typography variant="body2" color="text.primary">{log?.auditText}</Typography>
+                                            </Stack>
                                         </Box>
                                     </ListItem>
                                 </Paper>
