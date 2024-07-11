@@ -1,33 +1,6 @@
 import axiosInstance from "../config.ts";
 import {Pagination} from "../../interfaces/global.interface.ts";
-
-
-interface Article {
-  articleId: string;
-  quantity: number;
-}
-
-interface Notification {
-  _id: string;
-  companyId: string;
-  expiresAt: string;
-  filledAt?: string; // This field is optional
-  description?: string; // This field is optional
-  articles: Article[];
-  filledBy: string;
-  notificationReadBy: string[];
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
-}
-
-
-
-interface GetRefillByCompanyIdResponse {
-  data: Notification[];
-  pagination: Pagination;
-}
-
+import {GetRefillsByCompanyResponse, GetRefillsParams} from "../../interfaces/refile.interface.ts";
 
 interface DecimalValue {
   $numberDecimal: string;
@@ -109,6 +82,8 @@ export const refillParfum = async (data: RefillParfumRequest) => {
 }
 
 
+
+
 export const refillParfumeNotification = async (options: RefillParfumeNotificationOptions = { days: 7 }) :Promise<GetAllRefillsResponse> => {
   const { days = 7, page, limit, read } = options;
 
@@ -128,6 +103,15 @@ export const refillParfumeNotification = async (options: RefillParfumeNotificati
 }
 
 
-export const getRefillByCompanyId = async (companyId: string) :Promise<GetRefillByCompanyIdResponse> => {
-  return await axiosInstance.get(`/refills?page=1&limit=9999&companyId=${companyId}&showExpired=false`)
-}
+export const getRefillByCompanyId = async (params: GetRefillsParams): Promise<GetRefillsByCompanyResponse> => {
+  const { page = 1, limit = 10, companyId, showExpired = false } = params;
+  const response = await axiosInstance.get(`/refills`, {
+    params: {
+      page,
+      limit,
+      companyId,
+      showExpired
+    }
+  });
+  return response.data;
+};

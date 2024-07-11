@@ -4,7 +4,7 @@ import { getAllAudits } from '../../request/audit';
 import { QUERY_KEYS } from '../../../constants/queryKey';
 import { SortQuery } from '../../../utils/queryBuilder';
 
-export const useGetAllAuditQuery = (props?: SortQuery) => {
+export const useGetAllAuditQuery = (props: SortQuery) => {
     return useInfiniteQuery<AuditLogs, Error>({
         queryKey: [QUERY_KEYS.GET_ALL_AUDITS, props],
         queryFn: async ({ pageParam = 1 }) => {
