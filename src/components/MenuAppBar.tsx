@@ -21,7 +21,10 @@ export default function MenuAppBar() {
   const { logout } = useAuth();
   const navigate = useNavigate();
 
-  const { data } = useGetAllAuditQuery();
+  const { data } = useGetAllAuditQuery({
+    sortBy: 'createdAt',
+    order: 'desc',
+  });
   const { data: dataOfNotification } = useGetParfumNotification({ days: 15, page: 1, limit: 999 });
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {

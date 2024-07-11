@@ -4,6 +4,7 @@ import { Company as CompanyType } from '../interfaces/company.interface';
 import BusinessIcon from '@mui/icons-material/Business';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useNavigate } from 'react-router-dom';
+import {Note} from "@mui/icons-material";
 
 interface CompanyCardProps {
     company: CompanyType;
@@ -16,6 +17,10 @@ export const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
         navigate(`/company/${company._id}`);
     };
 
+    const handleNavigateToCompanyRefillDetail = () => {
+        navigate(`/company/${company._id}/refills`);
+    }
+
     const { latestRefill } = company;
 
     return (
@@ -27,9 +32,14 @@ export const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
                     </Avatar>
                 }
                 action={
+                <>
+                    <IconButton onClick={handleNavigateToCompanyRefillDetail}>
+                        <Note />
+                    </IconButton>
                     <IconButton onClick={handleDetailsClick}>
                         <ArrowForwardIcon />
                     </IconButton>
+                </>
                 }
                 title={
                     <Typography variant="h6" component="div" sx={{ fontWeight: 'bold' }}>
