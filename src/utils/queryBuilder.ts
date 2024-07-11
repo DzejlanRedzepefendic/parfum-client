@@ -6,7 +6,7 @@ export interface SortQuery {
   }
 
 export function queryBuilderForSort(props?:SortQuery) {
-    return `sortBy[${props?.sortBy}]=${props?.order?.toUpperCase()}`;
+    return `sortBy[${props?.sortBy || "createdAt"}]=${props?.order?.toUpperCase() || "DESC"}`;
 }
 
 
