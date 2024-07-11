@@ -58,7 +58,7 @@ export interface UserState {
 
 export interface Change {
   previousState?: ArticleState | CompanyState | RefillState | UserState;
-  currentState: ArticleState | CompanyState | RefillState | UserState;
+  currentState?: ArticleState | CompanyState | RefillState | UserState;
   executedBy: string;
 }
 

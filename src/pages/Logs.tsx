@@ -7,14 +7,16 @@ import { useMarkAuditQuery } from '../api/queries/audit/useMarkAuditQuery';
 
 const translateAction = (action: string): string => {
     const actionTranslations: { [key: string]: string } = {
-        "article_updated": "Ažuriran artikal",
-        "company_created": "Kreirana kompanija",
-        "refill_created": "Kreirano punjenje",
         "article_created": "Kreiran artikal",
-        "company_updated": "Ažurirana kompanija",
+        "article_updated": "Ažuriran artikal",
         "article_deleted": "Obrisan artikal",
+        "company_created": "Kreirana kompanija",
+        "company_updated": "Ažurirana kompanija",
+        "company_deleted": "Obrisana kompanija",
+        "refill_created": "Kreirano punjenje",
         "user_created": "Kreiran korisnik",
         "user_updated": "Ažuriran korisnik",
+        "user_deleted": "Obrisan korisnik"
     };
 
     return actionTranslations[action] || action;
@@ -62,8 +64,9 @@ export const Logs: React.FC = () => {
                         sx={{
                             marginBottom: 2,
                             padding: 2,
-                            backgroundColor: log.seen ? '#f0f0f0' : '#e0ffe0',
-                            cursor: 'pointer'
+                            backgroundColor: log.seen ? '#E0E0E0' : '#E3F2FD',
+                            cursor: 'pointer',
+                            color: log.seen ? '#616161' : '#0D47A1'
                         }}
                     >
                         <ListItem alignItems="flex-start">
@@ -72,26 +75,22 @@ export const Logs: React.FC = () => {
                             </Avatar>
                             <Box sx={{ width: '100%' }}>
                                 <Stack direction="row" justifyContent="space-between" sx={{ marginBottom: 1 }}>
-                                    <Typography variant="body2" color="text.secondary">Akcija:</Typography>
-                                    <Typography variant="body2" color="text.primary">{translateAction(log?.action)}</Typography>
+                                    <Typography variant="body2">Akcija:</Typography>
+                                    <Typography variant="body2">{translateAction(log?.action)}</Typography>
                                 </Stack>
                                 <Stack direction="row" justifyContent="space-between" sx={{ marginBottom: 1 }}>
-                                    <Typography variant="body2" color="text.secondary">Izvršio:</Typography>
-                                    <Typography variant="body2" color="text.primary">{log?.executedByDetails?.username}</Typography>
+                                    <Typography variant="body2">Izvršio:</Typography>
+                                    <Typography variant="body2">{log?.executedByDetails?.username}</Typography>
                                 </Stack>
                                 <Stack direction="row" justifyContent="space-between" sx={{ marginBottom: 1 }}>
-                                    <Typography variant="body2" color="text.secondary">Datum:</Typography>
-                                    <Typography variant="body2" color="text.primary">
+                                    <Typography variant="body2">Datum:</Typography>
+                                    <Typography variant="body2">
                                         {format(new Date(log?.createdAt), 'dd/MM/yyyy HH:mm:ss')}
                                     </Typography>
                                 </Stack>
-                                <Stack direction="row" justifyContent="space-between" sx={{ marginBottom: 1 }}>
-                                    <Typography variant="body2" color="text.secondary">Korisničko ime:</Typography>
-                                    <Typography variant="body2" color="text.primary">{log?.executedByDetails?.username}</Typography>
-                                </Stack>
                                 <Stack direction="row" justifyContent="space-between">
-                                    <Typography variant="body2" color="text.secondary">ID:</Typography>
-                                    <Typography variant="body2" color="text.primary">{log?.changes?.currentState?._id}</Typography>
+                                    <Typography variant="body2">ID:</Typography>
+                                    <Typography variant="body2">{log?.changes?.currentState?._id}</Typography>
                                 </Stack>
                             </Box>
                         </ListItem>
