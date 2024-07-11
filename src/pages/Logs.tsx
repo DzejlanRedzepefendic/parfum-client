@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { useGetAllAuditQuery } from '../api/queries/audit/useGetAllAuditQuery';
 import { Avatar, Box, List, ListItem, Paper, Stack, Typography, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { PersonPinCircleOutlined } from '@mui/icons-material';
@@ -25,8 +25,20 @@ const translateAction = (action: string): string => {
 export const Logs: React.FC = () => {
     const [sortBy, setSortBy] = useState('createdAt');
     const [order, setOrder] = useState('DESC');
-    const { data } = useGetAllAuditQuery({ order, sortBy });
+    const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useGetAllAuditQuery({ order, sortBy });
     const { mutateAsync } = useMarkAuditQuery();
+
+    const observer = useRef<IntersectionObserver | null>(null);
+    const lastLogElementRef = useCallback((node: HTMLDivElement | null) => {
+        if (isFetchingNextPage) return;
+        if (observer.current) observer.current.disconnect();
+        observer.current = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && hasNextPage) {
+                fetchNextPage();
+            }
+        });
+        if (node) observer.current.observe(node);
+    }, [isFetchingNextPage, fetchNextPage, hasNextPage]);
 
     const handleSortChange = (field: string, direction: string) => {
         setSortBy(field);
@@ -56,46 +68,59 @@ export const Logs: React.FC = () => {
                 </Select>
             </FormControl>
             <List>
-                {data?.data?.map((log, index: number) => (
-                    <Paper
-                        onClick={async () => {if(!log.seen){ await mutateAsync(log._id); }}}
-                        key={index}
-                        elevation={3}
-                        sx={{
-                            marginBottom: 2,
-                            padding: 2,
-                            backgroundColor: log.seen ? '#E0E0E0' : '#E3F2FD',
-                            cursor: 'pointer',
-                            color: log.seen ? '#616161' : '#0D47A1'
-                        }}
-                    >
-                        <ListItem alignItems="flex-start">
-                            <Avatar sx={{ marginRight: 2 }}>
-                                <PersonPinCircleOutlined />
-                            </Avatar>
-                            <Box sx={{ width: '100%' }}>
-                                <Stack direction="row" justifyContent="space-between" sx={{ marginBottom: 1 }}>
-                                    <Typography variant="body2">Akcija:</Typography>
-                                    <Typography variant="body2">{translateAction(log?.action)}</Typography>
-                                </Stack>
-                                <Stack direction="row" justifyContent="space-between" sx={{ marginBottom: 1 }}>
-                                    <Typography variant="body2">Izvršio:</Typography>
-                                    <Typography variant="body2">{log?.executedByDetails?.username}</Typography>
-                                </Stack>
-                                <Stack direction="row" justifyContent="space-between" sx={{ marginBottom: 1 }}>
-                                    <Typography variant="body2">Datum:</Typography>
-                                    <Typography variant="body2">
-                                        {format(new Date(log?.createdAt), 'dd/MM/yyyy HH:mm:ss')}
-                                    </Typography>
-                                </Stack>
-                                <Stack direction="row" justifyContent="space-between">
-                                    <Typography variant="body2">ID:</Typography>
-                                    <Typography variant="body2">{log?.changes?.currentState?._id}</Typography>
-                                </Stack>
-                            </Box>
-                        </ListItem>
-                    </Paper>
+                {data?.pages.map((page, pageIndex) => (
+                    <React.Fragment key={pageIndex}>
+                        {page.data.map((log, logIndex) => {
+                            const isLastElement = page.data.length === logIndex + 1;
+                            return (
+                                <Paper
+                                    ref={isLastElement ? lastLogElementRef : null}
+                                    onClick={async () => { if (!log.seen) { await mutateAsync(log._id); } }}
+                                    key={log._id}
+                                    elevation={3}
+                                    sx={{
+                                        marginBottom: 2,
+                                        padding: 2,
+                                        backgroundColor: log.seen ? '#E0E0E0' : '#E3F2FD',
+                                        cursor: 'pointer',
+                                        color: log.seen ? '#616161' : '#0D47A1'
+                                    }}
+                                >
+                                    <ListItem alignItems="flex-start">
+                                        <Avatar sx={{ marginRight: 2 }}>
+                                            <PersonPinCircleOutlined />
+                                        </Avatar>
+                                        <Box sx={{ width: '100%' }}>
+                                            <Stack direction="row" justifyContent="space-between" sx={{ marginBottom: 1 }}>
+                                                <Typography variant="body2">Akcija:</Typography>
+                                                <Typography variant="body2">{translateAction(log?.action)}</Typography>
+                                            </Stack>
+                                            <Stack direction="row" justifyContent="space-between" sx={{ marginBottom: 1 }}>
+                                                <Typography variant="body2">Izvršio:</Typography>
+                                                <Typography variant="body2">{log?.executedByDetails?.username}</Typography>
+                                            </Stack>
+                                            <Stack direction="row" justifyContent="space-between" sx={{ marginBottom: 1 }}>
+                                                <Typography variant="body2">Datum:</Typography>
+                                                <Typography variant="body2">
+                                                    {format(new Date(log?.createdAt), 'dd/MM/yyyy HH:mm:ss')}
+                                                </Typography>
+                                            </Stack>
+                                            <Stack direction="row" justifyContent="space-between" sx={{ marginBottom: 1 }}>
+                                                <Typography variant="body2">Korisničko ime:</Typography>
+                                                <Typography variant="body2">{log?.executedByDetails?.username}</Typography>
+                                            </Stack>
+                                            <Stack direction="row" justifyContent="space-between">
+                                                <Typography variant="body2">ID:</Typography>
+                                                <Typography variant="body2">{log?.changes?.currentState?._id}</Typography>
+                                            </Stack>
+                                        </Box>
+                                    </ListItem>
+                                </Paper>
+                            );
+                        })}
+                    </React.Fragment>
                 ))}
+                {isFetchingNextPage && <Typography align="center">Učitavanje...</Typography>}
             </List>
         </Box>
     );
