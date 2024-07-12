@@ -70,6 +70,7 @@ export interface LogEntry {
   seen: boolean;
   executedByDetails: ExecutedByDetails;
   createdAt: string;
+  auditText: string;
 }
 
 export interface Pagination {
