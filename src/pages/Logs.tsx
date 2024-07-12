@@ -96,8 +96,14 @@ export const Logs: React.FC = () => {
                                                 <Typography variant="body2">{translateAction(log?.action)}</Typography>
                                             </Stack>
                                             <Stack direction="row" justifyContent="space-between" sx={{ marginBottom: 1 }}>
-                                                <Typography variant="body2">Izvršio:</Typography>
+                                                <Typography variant="body2">Izvršilac:</Typography>
                                                 <Typography variant="body2">{log?.executedByDetails?.username}</Typography>
+                                            </Stack>
+                                            <Stack direction="row" justifyContent="space-between" sx={{ marginBottom: 1 }}>
+                                                <Typography variant="body2">Uloga izvršioca:</Typography>
+                                                <Typography variant="body2">
+                                                    {log?.executedByDetails?.role === 0 ? "Super Admin" : "Običan Admin"}
+                                                </Typography>
                                             </Stack>
                                             <Stack direction="row" justifyContent="space-between" sx={{ marginBottom: 1 }}>
                                                 <Typography variant="body2">Datum:</Typography>
@@ -105,18 +111,12 @@ export const Logs: React.FC = () => {
                                                     {format(new Date(log?.createdAt), 'dd/MM/yyyy HH:mm:ss')}
                                                 </Typography>
                                             </Stack>
+                                            {log?.auditText && 
                                             <Stack direction="row" justifyContent="space-between" sx={{ marginBottom: 1 }}>
-                                                <Typography variant="body2">Korisničko ime:</Typography>
-                                                <Typography variant="body2">{log?.executedByDetails?.username}</Typography>
+                                                <Typography variant="body2">Opis akcije:</Typography>
+                                                <Typography variant="body2">{log.auditText}</Typography>
                                             </Stack>
-                                            <Stack direction="row" justifyContent="space-between">
-                                                <Typography variant="body2">ID:</Typography>
-                                                <Typography variant="body2">{log?.changes?.currentState?._id}</Typography>
-                                            </Stack>
-                                            <Stack direction="row" justifyContent="space-between">
-                                                <Typography variant="body2">Opis Akcije:</Typography>
-                                                <Typography variant="body2">{log?.auditText}</Typography>
-                                            </Stack>
+                                            }
                                         </Box>
                                     </ListItem>
                                 </Paper>
