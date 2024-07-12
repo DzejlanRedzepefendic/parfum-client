@@ -114,8 +114,8 @@ export const Logs: React.FC = () => {
                                                 <Typography variant="body2">{log?.changes?.currentState?._id}</Typography>
                                             </Stack>
                                             <Stack direction="row" justifyContent="space-between">
-                                                <Typography variant="body2" color="text.secondary">Opis Akcije:</Typography>
-                                                <Typography variant="body2" color="text.primary">{log?.auditText}</Typography>
+                                                <Typography variant="body2">Opis Akcije:</Typography>
+                                                <Typography variant="body2">{log?.auditText}</Typography>
                                             </Stack>
                                         </Box>
                                     </ListItem>
