@@ -115,3 +115,8 @@ export const getRefillByCompanyId = async (params: GetRefillsParams): Promise<Ge
   });
   return response.data;
 };
+
+export const deleteRefillNotification = async (notificationId: string) => {
+    const res = await axiosInstance.delete(`/refills/${notificationId}`);
+    return res.data;
+}

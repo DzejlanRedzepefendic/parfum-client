@@ -25,6 +25,7 @@ const EditCompanyModal: React.FC<EditCompanyModalProps> = ({ open, onClose, comp
     contact: company.contact,
     bankDetails: company.bankDetails,
     description: company.description,
+      companyName: company.companyName,
   });
 
     console.log(company);
@@ -39,6 +40,7 @@ const EditCompanyModal: React.FC<EditCompanyModalProps> = ({ open, onClose, comp
       contact: company.contact,
       bankDetails: company.bankDetails,
       description: company.description,
+        companyName: company.companyName
     });
   }, [company]);
 
@@ -66,6 +68,15 @@ const EditCompanyModal: React.FC<EditCompanyModalProps> = ({ open, onClose, comp
           value={editedCompany.name}
           onChange={handleChange}
           required
+        />
+        <TextField
+          margin="dense"
+          name="companyName"
+          label="Naziv firme"
+          type="text"
+          fullWidth
+          value={editedCompany.companyName || ''}
+          onChange={handleChange}
         />
         <TextField
           margin="dense"

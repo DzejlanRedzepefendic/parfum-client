@@ -68,6 +68,15 @@ const CreateCompanyModal: React.FC<CreateCompanyModalProps> = ({ open, onClose }
               onChange={handleChange}
               required
           />
+          <TextField
+              margin="dense"
+              name="companyName"
+              label="Naziv firme"
+              type="text"
+              fullWidth
+                value={newCompany.companyName || ''}
+              onChange={handleChange}
+              />
           <Autocomplete
               multiple
               options={articles?.data || []}

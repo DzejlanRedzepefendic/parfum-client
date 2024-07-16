@@ -70,6 +70,7 @@ export interface CreateCompanyRequestData {
     bankDetails?: BankDetails;
     description?: string;
     articleIds?: string[];
+    companyName?: string;
 }
 
 export interface RemoveArticleFromCompanyRequestData {
@@ -81,6 +82,7 @@ export interface RemoveArticleFromCompanyRequestData {
 export interface Company {
     _id: string;
     name: string;
+    companyName?: string;
     pib?: string;
     address: Address;
     contact: Contact;
@@ -89,9 +91,17 @@ export interface Company {
     articleIds: string[];
     articles: Article[];
     latestRefill: LatestRefill;
+    devices?: string[];
+    companyDescriptions?: string[];
 }
 
 export interface CompanyResponseData {
     data: Company[];
     pagination: Pagination;
+}
+
+export interface  CompanyInformationPayload {
+    devices?: string[];
+    companyDescriptions?: string[];
+    id: string;
 }

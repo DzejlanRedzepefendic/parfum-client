@@ -4,9 +4,12 @@ import axios, { AxiosInstance } from 'axios';
 // const isDevelopment = true;
 
 // const URL = isDevelopment ? 'http://localhost:8222/api' : 'https://test-app-7vbq.onrender.com/api';
+const API_URL = import.meta.env.VITE_APP_API_URL
+console.log(API_URL,"api url")
+
 
 const axiosInstance: AxiosInstance = axios.create({
-  baseURL: "https://parfemi-app-production.up.railway.app/api",
+  baseURL:  API_URL || "https://parfemi-app-production.up.railway.app/api",
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',

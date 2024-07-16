@@ -112,6 +112,8 @@ const CompanyDetails: React.FC = () => {
   }
 
   const company: CompanyType = data;
+  console.log(company,"company")
+
 
   const handleEditSave = async (updatedCompany: CreateCompanyRequestData) => {
     await mutateAsync({ id: company._id, data: updatedCompany });
@@ -221,6 +223,11 @@ const CompanyDetails: React.FC = () => {
             onClick={handleRefillSubmit}
         >
           Dopuni parfeme
+        </Button>
+        <Button
+            onClick={()=>{navigate(`/company-information`,{state:company})}}
+            variant="contained" fullWidth sx={{marginTop:'20px'}}>
+            Vidi informacije o kompaniji
         </Button>
         <Button
             fullWidth

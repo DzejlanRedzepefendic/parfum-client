@@ -1,7 +1,7 @@
 import axiosInstance from "../config";
 import { QueryParams } from "../../interfaces/global.interface";
 import {
-    Company,
+    Company, CompanyInformationPayload,
     CompanyResponseData,
     CreateCompanyRequestData,
     RemoveArticleFromCompanyRequestData
@@ -36,5 +36,10 @@ export const deleteCompany = async (id:string) => {
 
 export const removeArticleFromCompany = async (data:RemoveArticleFromCompanyRequestData) =>{
     const res = await axiosInstance.put(`/companies/${data.companyId}/article/${data.articleId}`, {"amount":data.amount});
+    return res.data;
+}
+
+export const changeCompanyInformation = async (payload:CompanyInformationPayload) => {
+    const res = await axiosInstance.put(`/companies/${payload.id}`, {"devices":payload.devices, "companyDescriptions":payload.companyDescriptions});
     return res.data;
 }
