@@ -14,6 +14,7 @@ import { Company } from '../pages/Company';
 import CompanyDetails from '../pages/CompanyDetails';
 import Profile from "../pages/Profile.tsx";
 import CompanyRefillDetail from "../pages/CompanyRefillDetail.tsx";
+import CompanyInformation from "../pages/CompanyInformation.tsx";
 
 const AppRoute: React.FC = () => {
 
@@ -91,7 +92,12 @@ const AppRoute: React.FC = () => {
             <CompanyRefillDetail />
           </ProtectedRoute>
         } />
-        <Route path="/" element={isLoggedIn ? <Navigate to="/home" /> : <Navigate to="/login" />} />
+        <Route path="/company-information" element={
+            <ProtectedRoute>
+                <CompanyInformation/>
+            </ProtectedRoute>
+            } />
+            <Route path="/" element={isLoggedIn ? <Navigate to="/home" /> : <Navigate to="/login" />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       {!notShow && <BottomNavBar />}
